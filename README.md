@@ -1,4 +1,15 @@
-## DUNGEON-FIGHTER
+# DUNGEON-FIGHTER
+
+## TO DO
+
+* decidir o tema do jogo
+
+
+## USEFUL
+
+* [BUTTON SOUND EFFECTS](https://www.youtube.com/watch?v=q8ZLBOFQ2g0)
+
+## GAME
 
 * 1 jogador
 
@@ -36,6 +47,26 @@
 
     e enfrentar o monstro no fim dele (que sempre está em uma posição da última linha do
     tabuleiro).
+
+
+## JAVA
+
+javax.swing.*;
+java.awt.*;
+
+1. Create Window class
+
+```java
+public class Window {
+    // "main" da função window
+    void initWindow() {
+        JFrame frame = new Jframe("Dungeon Fighter");
+    }        
+}
+```
+
+
+
 
 
 
