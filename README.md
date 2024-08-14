@@ -43,7 +43,7 @@
     - Bárbaro: Golpe furioso - Desfere um ataque que causa 50% a mais de dano.
 3. O objetivo do jogo é percorrer um calabouço
     
-    ![CALABOUÇO](assets/exemplo-tabuleiro.png)
+    ![CALABOUÇO](assets/board-example.png)
 
     e enfrentar o monstro no fim dele (que sempre está em uma posição da última linha do
     tabuleiro).
