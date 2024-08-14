@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-public class SimpleGUI {
+public class Window {
     private static final int WINDOW_WIDTH = 1080;
     private static final int WINDOW_HEIGHT = 720;
 
-    private static void createAndShowGUI() {
+    public static void init() {
         JFrame frame = new JFrame("Minha Primeira Janela com Fundo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -57,14 +57,6 @@ public class SimpleGUI {
         frame.add(panel);
         frame.pack();
         frame.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                createAndShowGUI();
-            }
-        });
     }
 }
 
