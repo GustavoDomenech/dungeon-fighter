@@ -17,11 +17,7 @@ public class GamePanel {
         pGame.add(btnBack);
     }
 
-	public static JPanel getPanel() {
-        return pGame;
-    }
+	public static JPanel getPanel() { return pGame; }
 
-    public static JButton getBtn(String btnName) {
-		return btnBack;
-	}
+    public static JButton getBtn(String btnName) { return btnBack; }
 }

@@ -68,9 +68,7 @@ public class MenuPanel {
 		pMenu.add(btnExit, gbc);
 	}
 
-	public static JPanel getPanel() {
-        return pMenu;
-    }
+	public static JPanel getPanel() { return pMenu; }
 
     public static JButton getBtn(String btnName) {
         switch (btnName) {

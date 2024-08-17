@@ -13,11 +13,7 @@ public class MainPanel {
         pMain.add(GamePanel.getPanel(), "Game");
     }
 
-	public static CardLayout getCardLayout() {
-        return clMain;
-    }
+	public static CardLayout getCardLayout() { return clMain; }
 
-    public static JPanel getPanel() {
-        return pMain;
-    }
+    public static JPanel getPanel() { return pMain; }
 }
