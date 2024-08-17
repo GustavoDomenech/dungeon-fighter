@@ -18,26 +18,22 @@ import java.awt.Insets;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
 
-public class GamePanel {
-	private static JPanel pGame = new JPanel();
-    private static JButton btnBack = new JButton("Back to Main Menu");
-
-    static {
-        /* panel layout */
-        pGame.setBackground(Color.BLACK);
-        pGame.add(new JLabel("Game Screen"));
-        /* panel buttons*/
-        pGame.add(btnBack);
+public class MainPanel {
+	private static CardLayout clMain = new CardLayout();
+	private static JPanel pMain = new JPanel(clMain);
+	
+	static {
+        // Add menu and game panels to the CardLayout-managed panel
+        pMain.add(MenuPanel.getPanel(), "Menu");
+        pMain.add(GamePanel.getPanel(), "Game");
     }
 
-	public static JPanel getPanel() {
-        return pGame;
+	public static CardLayout getCardLayout() {
+        return clMain;
     }
 
-    public static JButton getBtn(String btnName) {
-		return btnBack;
-	}
+    public static JPanel getPanel() {
+        return pMain;
+    }
 }
