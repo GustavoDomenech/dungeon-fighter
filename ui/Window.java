@@ -2,21 +2,8 @@ package ui;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
 import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.plaf.basic.BasicToolTipUI;
-import javax.swing.AbstractButton;
 import java.awt.CardLayout;
-import java.awt.Graphics;
-import java.awt.Dimension;
-import java.awt.Container;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 
 import config.Settings;
 
@@ -24,6 +11,8 @@ public class Window {
 	/* window geometry */
 	private static int w = Settings.WINDOW_WIDTH;
 	private static int h = Settings.WINDOW_HEIGHT;
+	/* window frame */
+	private static JFrame f  = new JFrame("Dungeon Fighter");
 	/* main panel */
 	private static CardLayout clMain = MainPanel.getCardLayout();
 	private static JPanel pMain = MainPanel.getPanel();
@@ -36,7 +25,6 @@ public class Window {
 	private static JPanel pGame = GamePanel.getPanel();
 
     public static void init() {
-        JFrame f = new JFrame("Dungeon Fighter");
 		/* main */
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		clMain.show(pMain, "Menu");
