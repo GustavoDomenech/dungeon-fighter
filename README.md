@@ -2,8 +2,6 @@
 
 ## TO DO
 
-* decidir o tema do jogo
-* excluir as bibliotecas redundates dos arquivos da pasta /ui/
 * começar a fazer o jogo
 
 ## USEFUL
