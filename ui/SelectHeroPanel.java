@@ -37,17 +37,17 @@ public class SelectHeroPanel {
         /* ************************************************************************************
          * *                          PAINEL SUPERIOR                                         *
          * ************************************************************************************/
-        topPanel.setPreferredSize(new Dimension(200, 50)); // 1/8 da altura total
+        topPanel.setPreferredSize(new Dimension(200, 50));
         txtHeroName.setFont(f.deriveFont(16f));
         topPanel.add(txtHeroName, BorderLayout.CENTER);
         topPanel.setBackground(Color.LIGHT_GRAY);
-        topPanel.setBorder(new EmptyBorder(10, 10, 10, 10)); // Padding interno
+        topPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         /* ************************************************************************************
          * *                          PAINEL DE BOTÕES (INFERIOR)                              *
          * ************************************************************************************/
         buttonPanel.setBackground(Color.LIGHT_GRAY);
-        buttonPanel.setBorder(new EmptyBorder(10, 10, 10, 10)); // Padding interno
+        buttonPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         
         btnWarrior.setFont(f);
         btnPaladin.setFont(f);
@@ -65,7 +65,7 @@ public class SelectHeroPanel {
          * *                          PAINEL PRINCIPAL                                        *
          * ************************************************************************************/
         pSelectHero.setPreferredSize(new Dimension(200, 400));
-        pSelectHero.setBackground(Color.LIGHT_GRAY); // Cor de fundo do painel principal
+        pSelectHero.setBackground(Color.LIGHT_GRAY);
         pSelectHero.add(topPanel, BorderLayout.NORTH);
         pSelectHero.add(buttonPanel, BorderLayout.CENTER);
     }
