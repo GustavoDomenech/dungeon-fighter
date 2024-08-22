@@ -11,6 +11,7 @@
 > métodos(opcional)
 
 4. Uma breve explicação de como e onde foram aplicados os conceitos de orientação à objetos, tais como: herança, polimorfismo, interface, exceção, concorrência e classe abstrata.
+> POLIMORFISMO: game/Monster.java
 
 5. Passos para executar o programa implementado.
 > Passo-a-passo de como jogar.

@@ -2,7 +2,20 @@
 
 ## TO DO
 
-* começar a fazer o jogo
+* tem função nova pra colocar na lista
+* menu de escolher o personagem (impossivel)
+* MECANICA DA BATALHA
+    O ataque ocorre da seguinte forma: o primeiro ataca sorteando um número
+    de 0 a W e somando esse número ao valor de seu ataque. O segundo se 
+    defende sorteando um número de 0 a W e somando esse número ao valor de 
+    sua defesa. O dano é o valor do ataque do primeiro menos o valor da 
+    defesa do segundo. Se o dano é positivo, o segundo perde vida, caso 
+    contrário, o primeiro que perde
+* adicionar os sprites nas classes
+* currentPosition em todos os atores do jogo
+* isVisible
+* lista de posições das traps (for loop na classe Heroi pra posicionar num quadrado que nao tem trap)
+* FightPanel
 
 ## USEFUL
 
@@ -46,6 +59,7 @@
 * [java.io.File](https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/File.html)
 * [java.io.IOException](https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/IOException.html)
 * [java.io.IOException.printStackTrace()](https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Throwable.html#printStackTrace())
+* [java.util.concurrent.ThreadLocalRandom](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadLocalRandom.html)
 
 ## GAME
 
@@ -81,7 +95,7 @@
     - Bárbaro: Golpe furioso - Desfere um ataque que causa 50% a mais de dano.
 3. O objetivo do jogo é percorrer um calabouço
     
-    ![CALABOUÇO](assets/board-example.png)
+    ![CALABOUÇO](assets/images/board-example.png)
 
     e enfrentar o monstro no fim dele (que sempre está em uma posição da última linha do
     tabuleiro).
