@@ -14,6 +14,6 @@ public class MainPanel {
     }
 
 	public static CardLayout getCardLayout() { return clMain; }
-
-    public static JPanel getPanel() { return pMain; }
+    
+	public static JPanel getPanel() { return pMain; }
 }
