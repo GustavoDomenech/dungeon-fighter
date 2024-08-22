@@ -8,7 +8,6 @@ public class MainPanel {
 	private static JPanel pMain = new JPanel(clMain);
 	
 	static {
-        // Add menu and game panels to the CardLayout-managed panel
         pMain.add(MenuPanel.getPanel(), "Menu");
         pMain.add(GamePanel.getPanel(), "Game");
     }
