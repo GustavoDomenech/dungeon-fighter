@@ -1,28 +1,22 @@
-import java.util.concurrent.ThreadLocalRandom;
+package game;
 
+import java.util.concurrent.ThreadLocalRandom;
 import config.Settings;
 
 public class Trap {
-	/* TODO adicionar os sprites das traps */
-	private int damage;
-	private bool isVisible;
-	private int row;
-	private int column;
+    private int damage;
+	private boolean isRandom;
 
-	public Trap(bool isRandom, int row, int column) {
-		this.isVisible = false;
-		this.row = row;
-		this.column = column;
-		/* TODO posicionar numa coluna aleatoria for loop etc*/
+    public Trap(boolean isRandom) {
+        if (isRandom) {
+            this.damage = ThreadLocalRandom.current().nextInt(0, Settings.MAX_TRAP_DAMAGE);
+        } else {
+            this.damage = 1;
+        }
+    }
 
-		if (isRandom) {
-			this.damage = ThreadLocalRandom.current().nextInt(0, Settings.W + 1);
-		} else {
-			this.damage = 1;
-		}
-	}
+    public void attack(Character c) {
+        c.takeDamage(this.damage);
+    }
 
-	public revealTrap() {
-		this.isVisible = true;
-	}
 }

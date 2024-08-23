@@ -1,71 +1,49 @@
-/* pra gerar uma coluna aleatoria */
-//import java.util.concurrent.ThreadLocalRandom;
+package game;
+
+import java.awt.Image;
 
 import config.Settings;
 
 public class Hero extends Character {
-	/* TODO adicionar os sprites dos herois */
-	private String heroClass;
-	private String name;
-	private int attackPoints;
-	private int defensePoints;
-	private int healthPoints;
-	private int numberOfElixirs;
-	private bool usedSpecialAbility;
-	private int currentRow;
-	private int currentColumn;
-	
-	public Hero(String heroClass, String name) {
-		this.heroClass = heroClass;
-		this.name = name;
-		this.attackPoints = Settings.HERO_ATTACK_POINTS;
-		this.defensePoints = Settings.HERO_DEFENSE_POINTS;
-		this.healthPoints = Settings.HERO_HEALTH_POINTS;
-		this.usedSpecialAbility = false;
-		this.numberOfElixirs = 0;
-		this.currentRow = 0;
-		this.currentColumn = 1;
-		// TODO 
-		// this.currentColum = ?
-		// posicionar numa coluna que nao tem trap
-	}
+    private String heroClass;
+    private boolean usedSpecialAbility;
+    private int numberOfElixirs;
 
-	public int setCurrentPosition(int row, int column) {
-		this.currentRow = row;
-		this.currentColumn = column;
-	}
-	
-	public void useElixir() {
-		this.healthPoints += Settings.V;
-		this.numberOfElixirs -= 1;
-	}
+    public Hero(String heroClass, String name) {
+        super(name, Settings.HERO_ATTACK_POINTS, Settings.HERO_DEFENSE_POINTS, Settings.HERO_HEALTH_POINTS);
+        this.heroClass = heroClass;
+        this.usedSpecialAbility = false;
+        this.numberOfElixirs = 0;
+    }
 
-	public void useSpecialAbility(String heroClass) {
-		switch (heroClass) {
-			case "Warrior":
-				if (usedSpecialAbility) {
-					this.defensePoints /= 1.5;
-				} else {	
-					this.defensePoints *= 1.5;
-					this.usedSpecialAbility = true;
-				}
-				break;
-			case "Paladin":
-				if (healthPoints + (1.5 * Settings.HERO_HEALTH_POINTS) > Settings.HERO_HEALTH_POINTS) {
-					this.healthPoints = Settings.HERO_HEALTH_POINTS;
-					this.usedSpecialAbility = true;
-				} else {
-					this.healthPoints += (1.5 * Settings.HERO_HEALTH_POINTS); 
-					this.usedSpecialAbility = true;
-				}
-				break;
-			case "Barbarian":
-				this.attackPoints *= 1.5;
-				super.attack(Character c);
-				this.attackPoints /= 1.5;
+    public void useElixir() {
+        this.healthPoints += Settings.ELIXIR_HEAL_AMOUNT;
+        this.numberOfElixirs -= 1;
+        this.healthPoints = Math.min(this.healthPoints, Settings.HERO_HEALTH_POINTS);
+    }
+
+    public void useSpecialAbility() {
+        switch (heroClass) {
+            case "Warrior":
+				/* TODO isso aqui nao parece que vai funcionar 
+				 * (eu pensei em deixar o botão nao clicável e chamar a funçao depois de 2 rodadas) */
+                if (usedSpecialAbility) {
+                    this.defensePoints /= 1.5;
+                } else {
+                    this.defensePoints *= 1.5;
+                    this.usedSpecialAbility = true;
+                }
+                break;
+            case "Paladin":
+                this.healthPoints = Math.min(this.healthPoints + (int) (1.5 * Settings.HERO_HEALTH_POINTS), Settings.HERO_HEALTH_POINTS);
+                this.usedSpecialAbility = true;
+                break;
+            case "Barbarian":
+                this.attackPoints *= 1.5;
 				this.usedSpecialAbility = true;
-		}
-	}
+                break;
+        }
+    }
+
+	public int getNumberOfElixirs() { return numberOfElixirs; }
 }
-
-

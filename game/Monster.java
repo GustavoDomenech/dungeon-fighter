@@ -1,44 +1,14 @@
+package game;
+
+import config.Settings;
+
 public class Monster extends Character {
-	private static String name;
-	private static int attackPoints;
-	private static int defensePoints;
-	private static int healthPoints;
-	
-	public Monster(
-			String name, 
-			int attackPoints, 
-			int defensePoints, 
-			int healthPoints) 
-	{
-		this.name = name;
-		this.attackPoints = attackPoints;
-		this.defensePoints = defensePoints;
-		this.healthPoints = healthPoints;
+		/* TODO da pra fazer uma função que randomiza os stats dos monstros */
+    public Monster(String name, int attackPoints, int defensePoints, int healthPoints, String type) {
+        super(name, attackPoints, defensePoints, healthPoints);
 	}
-
-	public Monster() {
-		this.name = "Blorg";
-		this.attackPoints = 120;
-		this.defensePoints = 60;
-		this.healthPoints = 100;
-	}
-
-	public void attack(Hero h) { h.takeDamage(this.attackPoints) }
-
-	public void takeDamage(int damage) { 
-		if (this.healthPoints - damage <= 0) {
-			this.healthPoints = 0;
-		} else {
-			this.healthPoints -= damage;
-		}
-	}
-
-
-	public String getName(){ return name; }
-
-	public int getAttackPoints(){ return attackPoints; }
-
-	public int getDefensePoints(){ return defensePoints; }
-
-	public int getHealthPoints(){ return healthPoints; }
+    public Monster() {
+		/* exemplo de sobrecarga de metodos ein anota */
+        super(Settings.BOSS_NAME, Settings.BOSS_ATTACK_POINTS, Settings.BOSS_DEFENSE_POINTS, Settings.BOSS_HEALTH_POINTS);
+    }
 }
