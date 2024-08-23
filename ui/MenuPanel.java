@@ -6,21 +6,23 @@ import java.awt.Graphics;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import javax.swing.BoxLayout;
+import javax.swing.Box;
+import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Image;
 
 import config.Settings;
 
 public class MenuPanel {
+	private static Font f = Settings.FONT;
 	private static int w = Settings.WINDOW_WIDTH;
 	private static int h = Settings.WINDOW_HEIGHT;
-	private static Dimension buttonSize = new Dimension(120, 20);
+	private static Dimension buttonSize = new Dimension(400, 50);
 	private static JButton btnNewGame = new JButton("Jogar");
 	private static JButton btnDebug = new JButton("DEBUG");
 	private static JButton btnExit = new JButton("Sair");
-	/* ************************************************************************************
-	 * *                          			MENU PANEL 		                              *
-	 * ************************************************************************************/
+
 	private static JPanel pMenu = new JPanel() {
 		private Image bg = Settings.BACKGROUND;
 
@@ -33,39 +35,40 @@ public class MenuPanel {
 		@Override
 		public Dimension getPreferredSize() { return new Dimension(w, h); }
 	};
-	/* ************************************************************************************
-	 * *                          	LAYOUT DOS BOTOES 		                              *
-	 * ************************************************************************************/
+
 	static {
-		/* tamanho dos botoes */
+		/* tamanho dos botões */
 		btnNewGame.setPreferredSize(buttonSize);
 		btnDebug.setPreferredSize(buttonSize);
 		btnExit.setPreferredSize(buttonSize);
-		/* layout do painel do menu */
+		/* fonte dos botões */
+		btnNewGame.setFont(f);
+		btnDebug.setFont(f);
+		btnExit.setFont(f);
+		/* layout do painel */
 		pMenu.setLayout(new GridBagLayout());
-		/* layout dos botoes */
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(10, 0, 10, 0);
 		gbc.gridx = 0;
 		gbc.gridy = GridBagConstraints.RELATIVE;
-		/* adiciona os botoes ao painel do menu */
+		/* adiciona os botões ao menu */
+		pMenu.add(Box.createVerticalStrut(150));
 		pMenu.add(btnNewGame, gbc);
 		pMenu.add(btnDebug, gbc);
 		pMenu.add(btnExit, gbc);
+		/* action listeners do painel */
+		setupButtonListeners();
+	}
+
+	private static void setupButtonListeners() {
+		/* new game -> mostra o painel de jogo */
+		btnNewGame.addActionListener(e -> MainPanel.showGame());
+		/* TODO botão DEBUG */
+		// btnDebug(e -> MainPanel.showGame("DEBUG"))
+		/* exit -> sai do jogo*/
+		btnExit.addActionListener(e -> System.exit(0));
 	}
 
 	public static JPanel getPanel() { return pMenu; }
-
-	public static JButton getBtn(String btnName) {
-		switch (btnName) {
-			case "Jogar":
-				return btnNewGame;
-			case "DEBUG":
-				return btnDebug;
-			case "Sair":
-				return btnExit;
-		}
-		return btnExit;
-	}
 }
 
