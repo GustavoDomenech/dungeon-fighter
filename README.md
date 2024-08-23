@@ -12,6 +12,7 @@
 
 * MECANICA DA BATALHA
 
+![TODO](assets/images/TODO-23-08.png)
 
 ## USEFUL
 
