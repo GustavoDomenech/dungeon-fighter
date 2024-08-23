@@ -1,26 +1,22 @@
 # DUNGEON-FIGHTER
 
+
 ## TO DO
 
-* tem função nova pra colocar na lista
-* menu de escolher o personagem (impossivel)
+
+* PELO AMOR DE DEUS ATUALIZA A LISTA DE FUNÇÕES BONITINHO IUAL A java.awt.Graphics.drawImage()
+
+* DIAGRAMA DE CLASSES
+
+* RELATORIOOOOOOOOOOO
+
 * MECANICA DA BATALHA
-    O ataque ocorre da seguinte forma: o primeiro ataca sorteando um número
-    de 0 a W e somando esse número ao valor de seu ataque. O segundo se 
-    defende sorteando um número de 0 a W e somando esse número ao valor de 
-    sua defesa. O dano é o valor do ataque do primeiro menos o valor da 
-    defesa do segundo. Se o dano é positivo, o segundo perde vida, caso 
-    contrário, o primeiro que perde
-* adicionar os sprites nas classes
-* currentPosition em todos os atores do jogo
-* isVisible
-* lista de posições das traps (for loop na classe Heroi pra posicionar num quadrado que nao tem trap)
-* FightPanel
+
 
 ## USEFUL
 
 * [BUTTON SOUND EFFECTS](https://www.youtube.com/watch?v=q8ZLBOFQ2g0)
-* [SPRITES](https://www.youtube.com/watch?v=wT9uNGzMEM4)
+
 
 ## LIBRARIES
 
@@ -61,44 +57,31 @@
 * [java.io.IOException.printStackTrace()](https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Throwable.html#printStackTrace())
 * [java.util.concurrent.ThreadLocalRandom](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadLocalRandom.html)
 
+
 ## GAME
-
-* 1 jogador
-
-* é possivel
-> explorar a masmorra \
-> vasculhar suas inumeras salas \
-> enfrentar monstros \
-> no fim derrotar um chefão
 
 * herois possuem atributos
 > ataque \
 > defesa \
 > saude 
 
-* herois possuem habilidades
-> defesa \
-> recuperação \
-> ataque 
-
 * 3 tipos de herói
 > barbaro \
 > paladino \
 > guerreiro 
 
+* herois possuem habilidades especiais 
+> Guerreiro: Postura Defensiva - Aumenta sua defesa em 50% durante duas rodadas \
+> Paladino: Recuperação - Recupera 50% dos seus pontos de vida totais \
+> Bárbaro: Golpe furioso - Desfere um ataque que causa 50% a mais de dano 
+
+
 1. Quando o jogo começa, o jogador escolhe o seu herói de acordo com um tipo e recebe:
     - X pontos para distribuir entre seus atributos. 
     - Os pontos de vida serão Y + saúde 
-2. Cada tipo de herói possui uma habilidade especial que pode ser usada uma vez a cada batalha:
-    - Guerreiro: Postura Defensiva - Aumenta sua defesa em 50% durante duas rodadas;
-    - Paladino: Recuperação - Recupera 50% dos seus pontos de vida totais;
-    - Bárbaro: Golpe furioso - Desfere um ataque que causa 50% a mais de dano.
-3. O objetivo do jogo é percorrer um calabouço
-    
-    ![CALABOUÇO](assets/images/board-example.png)
 
-    e enfrentar o monstro no fim dele (que sempre está em uma posição da última linha do
-    tabuleiro).
+    
+![CALABOUÇO](assets/images/board-example.png)
 
 
 
