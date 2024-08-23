@@ -1,3 +1,7 @@
 #!/bin/sh
 
-java $HOME/dungeon-fighter/Main.java
+set -xe
+
+GAME_DIR=$(pwd)
+
+java $GAME_DIR/Main.java
