@@ -3,6 +3,7 @@ package ui;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JToggleButton;
 import javax.swing.border.EmptyBorder;
 import javax.swing.ImageIcon;
 import javax.swing.BoxLayout;
@@ -15,6 +16,8 @@ import java.awt.Font;
 import java.awt.Image;
 import java.util.HashMap;
 import java.util.Map;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import game.NewGame;
 import game.Hero;
@@ -28,7 +31,7 @@ public class GamePanel {
     private static JPanel paddedBoardPanel = new JPanel(new BorderLayout());
     private static JPanel labelPanel = new JPanel();
     private static JPanel buttonPanel = new JPanel();
-    private static JButton btnMoveHero = new JButton("Movimentar herói");
+    private static JToggleButton btnMoveHero = new JToggleButton("Movimentar herói");
     private static JButton btnHint = new JButton("Dica");
     private static JButton btnBack = new JButton("Sair");
 	private static JLabel lblHealth = new JLabel();
@@ -38,6 +41,17 @@ public class GamePanel {
 	private static HashMap<String, JButton> boardButtons = new HashMap<>();
 	private static HashMap<String, String> actorPositions;
 	private static Hero h;
+	private static ActionListener boardButtonListener = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (btnMoveHero.isSelected()) {
+				JButton sourceButton = (JButton) e.getSource();
+				String pos = sourceButton.getText();
+				NewGame.changeHeroPosition(actorPositions, pos);
+				updateGamePanel();
+			}
+		}
+	};
 
     static {
 		/* ***************************************************************************
@@ -46,17 +60,26 @@ public class GamePanel {
 		NewGame ng = new NewGame("Warrior", "Aragorn");
 		h = new Hero("Warrior", "Aragorn");
 		actorPositions = ng.getActorPositions();
+		updateGamePanel();
+    }
+
+	private static void updateGamePanel() {
+		/* TODO nao ta funcionando mas ta quase */
+		/* remove o painel anterior */
+		pGame.remove(paddedBoardPanel);
 		/* setup dos paines subjacentes */
 		setupLabelPanel();
         setupButtonPanel();
         setupLeftPanel();
         setupBoardPanel();
 		/* plano de fundo */
-        pGame.setBackground(Color.WHITE);
+        pGame.setBackground(Color.white);
 		/* adiciona os dois paineis ao painel do jogo */
         pGame.add(leftPanel, BorderLayout.WEST);
         pGame.add(paddedBoardPanel, BorderLayout.CENTER);
-    }
+		/* action listeners dos botões */
+		setupButtonListeners();
+	}
 
     private static void setupLabelPanel() {		
 		/* ***************************************************************************
@@ -218,7 +241,18 @@ public class GamePanel {
 		}
 		return sprite;
 	}
-    
+	
+
+	private static void setupButtonListeners() {
+		/* boardButton -> se movimentar o heroi estiver ativado */
+		for (Map.Entry<String, JButton> entry : boardButtons.entrySet()) {
+            entry.getValue().addActionListener(boardButtonListener);
+        }
+		/* btnBack -> mostra o painel do menu 
+		 * TODO menu de "Novo jogo" "Reiniciar" etc */
+		btnBack.addActionListener(e -> MainPanel.showMenu());
+	}
+
 	public static JPanel getPanel() { return pGame; }
 }
 

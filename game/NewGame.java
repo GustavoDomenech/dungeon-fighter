@@ -1,6 +1,7 @@
 package game;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 import config.Settings;
@@ -60,6 +61,13 @@ public class NewGame {
         //actorPositions.put("TRAP_RANDOM_6", "2,3");
 	}
 
-	public HashMap<String, String> getActorPositions() { return actorPositions; }
+	public static void changeHeroPosition(HashMap<String, String> h, String newPosition) {
+		for (Map.Entry<String, String> entry : h.entrySet()) {
+			if (entry.getKey().startsWith("HERO")) {
+				h.put(entry.getKey(), newPosition);
+			}
+		}
+	}
 
+	public HashMap<String, String> getActorPositions() { return actorPositions; }
 }
