@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JToggleButton;
+import javax.swing.JOptionPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.ImageIcon;
 import javax.swing.BoxLayout;
@@ -18,13 +19,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 import game.NewGame;
 import game.Hero;
+import game.Trap;
+import game.Monster;
+import ui.MenuPanel;
 import config.Settings;
 
 public class GamePanel {
-	private static Font f = Settings.FONT;
+    private static Font f = Settings.FONT;
+	private static boolean debugIsOn;
     private static JPanel pGame = new JPanel(new BorderLayout());
     private static JPanel leftPanel = new JPanel(new BorderLayout());
     private static JPanel boardPanel = new JPanel(new GridLayout(5, 10));
@@ -34,74 +42,52 @@ public class GamePanel {
     private static JToggleButton btnMoveHero = new JToggleButton("Movimentar herói");
     private static JButton btnHint = new JButton("Dica");
     private static JButton btnBack = new JButton("Sair");
-	private static JLabel lblHealth = new JLabel();
-	private static JLabel lblAttack = new JLabel();
-	private static JLabel lblDefense = new JLabel();
-	private static JLabel lblElixir = new JLabel();
-	private static HashMap<String, JButton> boardButtons = new HashMap<>();
-	private static HashMap<String, String> actorPositions;
-	private static Hero h;
-	private static ActionListener boardButtonListener = new ActionListener() {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (btnMoveHero.isSelected()) {
-				JButton sourceButton = (JButton) e.getSource();
-				String pos = sourceButton.getText();
-				NewGame.changeHeroPosition(actorPositions, pos);
-				updateGamePanel();
-			}
-		}
-	};
+    private static JLabel lblHealth = new JLabel();
+    private static JLabel lblAttack = new JLabel();
+    private static JLabel lblDefense = new JLabel();
+    private static JLabel lblElixir = new JLabel();
+    private static HashMap<String, JButton> boardButtons = new HashMap<>();
+    private static HashMap<String, String> actorPositions;
+    private static Hero h;
+	private static int hintCounter = 0;
+	private static String heroKey;
 
-    static {
-		/* ***************************************************************************
-		 * *							"MAIN" DA CLASSE							 *
-		 * ***************************************************************************/
-		NewGame ng = new NewGame("Warrior", "Aragorn");
-		h = new Hero("Warrior", "Aragorn");
-		actorPositions = ng.getActorPositions();
-		updateGamePanel();
+	public static void initializeGame() {
+		debugIsOn = MenuPanel.debugIsOn;
+		/* TODO a heroKey tem q vir do painel SelectHero */
+		/* TODO cópia do HashMap das posições pro menu "Reiniciar" ou "Novo Jogo"*/
+        NewGame ng = new NewGame("Warrior", "Aragorn");
+        h = new Hero("Warrior", "Aragorn");
+		heroKey = "HERO_WARRIOR";
+        actorPositions = ng.getActorPositions();
+        setupGamePanel();
     }
 
-	private static void updateGamePanel() {
-		/* TODO nao ta funcionando mas ta quase */
-		/* remove o painel anterior */
-		pGame.remove(paddedBoardPanel);
-		/* setup dos paines subjacentes */
-		setupLabelPanel();
+    private static void setupGamePanel() {
+        setupLabelPanel();
         setupButtonPanel();
         setupLeftPanel();
         setupBoardPanel();
-		/* plano de fundo */
         pGame.setBackground(Color.white);
-		/* adiciona os dois paineis ao painel do jogo */
         pGame.add(leftPanel, BorderLayout.WEST);
         pGame.add(paddedBoardPanel, BorderLayout.CENTER);
-		/* action listeners dos botões */
-		setupButtonListeners();
-	}
+        setupButtonListeners();
+    }
 
-    private static void setupLabelPanel() {		
-		/* ***************************************************************************
-		 * *			PAINEL DE STATS DO JOGADOR (SUPERIOR)						 *
-		 * ***************************************************************************/
-		/* texto */
-		lblHealth.setText(" " + h.getHealthPoints());
- 		lblAttack.setText("󰓥 " + h.getAttackPoints());
-		lblDefense.setText("󰒘 " + h.getDefensePoints());
-		lblElixir.setText(" " + h.getNumberOfElixirs());
-		/* fonte do texto */
+    private static void setupLabelPanel() {
+        /* definição e formatação do texto */
+		lblHealth.setText(" " + h.getHealthPoints() + "/" + Settings.HERO_HEALTH_POINTS);
         lblHealth.setFont(f.deriveFont(48f));
+        lblAttack.setText("󰓥 " + h.getAttackPoints());
         lblAttack.setFont(f.deriveFont(36f));
+        lblDefense.setText("󰒘 " + h.getDefensePoints());
         lblDefense.setFont(f.deriveFont(36f));
+        lblElixir.setText(" " + h.getNumberOfElixirs());
         lblElixir.setFont(f.deriveFont(36f));
-		/* plano de fundo do painel */
-        labelPanel.setBackground(Color.WHITE);
 		/* layout do painel */
+        labelPanel.setBackground(Color.WHITE);
         labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
-		/* padding de 80px entre a borda superior e o texto */
         labelPanel.add(Box.createVerticalStrut(80));
-		/* posicionamento do texto no painel*/
         labelPanel.add(lblHealth);
         labelPanel.add(lblAttack);
         labelPanel.add(lblDefense);
@@ -109,25 +95,19 @@ public class GamePanel {
     }
 
     private static void setupButtonPanel() {
-		/* ***************************************************************************
-		 * *					PAINEL DE BOTÕES (INFERIOR)						 	 *
-		 * ***************************************************************************/
-		/* fonte dos botões */
-        btnMoveHero.setFont(f);
-        btnHint.setFont(f);
-        btnBack.setFont(f);
-		/* plano de fundo do painel */
-        buttonPanel.setBackground(Color.WHITE);
-		/* layout do painel */
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-		/* alinhamento a esquerda e preenchimento horizontal total dos botões */
-		btnMoveHero.setAlignmentX(JButton.CENTER_ALIGNMENT);
+        /* formatação e alinhamento dos botões */
+		btnMoveHero.setFont(f);
+        btnMoveHero.setAlignmentX(JButton.CENTER_ALIGNMENT);
         btnMoveHero.setMaximumSize(new Dimension(Integer.MAX_VALUE, btnMoveHero.getMinimumSize().height));
-		btnHint.setAlignmentX(JButton.CENTER_ALIGNMENT);
+        btnHint.setFont(f);
+        btnHint.setAlignmentX(JButton.CENTER_ALIGNMENT);
         btnHint.setMaximumSize(new Dimension(Integer.MAX_VALUE, btnHint.getMinimumSize().height));
-		btnBack.setAlignmentX(JButton.CENTER_ALIGNMENT);
+        btnBack.setFont(f);
+        btnBack.setAlignmentX(JButton.CENTER_ALIGNMENT);
         btnBack.setMaximumSize(new Dimension(Integer.MAX_VALUE, btnBack.getMinimumSize().height));
-		/* posicionamento dos botõeses no painel */
+		/* layout do painel */
+        buttonPanel.setBackground(Color.WHITE);
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.add(btnMoveHero);
         buttonPanel.add(Box.createVerticalStrut(10));
         buttonPanel.add(btnHint);
@@ -137,122 +117,284 @@ public class GamePanel {
     }
 
     private static void setupLeftPanel() {
-		/* ***************************************************************************
-		 * *							PAINEL À ESQUERDA 							 *
-		 * ***************************************************************************/
-		/* plano de fundo do painel */
+		/* layout do painel */
         leftPanel.setBackground(Color.WHITE);
-		/* tamanho do painel */
         leftPanel.setPreferredSize(new Dimension(250, leftPanel.getPreferredSize().height));
         leftPanel.setBorder(new EmptyBorder(0, 20, 0, 0));
-		/* posicionamento dos paineis de botões e de texto no painel à esquerda */
         leftPanel.add(labelPanel, BorderLayout.NORTH);
         leftPanel.add(buttonPanel, BorderLayout.SOUTH);
     }
-	
-	private static void setupBoardPanel() {
-		/* ***************************************************************************
-		 * *                      PAINEL DO TABULEIRO                                *
-		 * ***************************************************************************/
-		/* plano de fundo */
-		boardPanel.setBackground(Color.WHITE);
-		paddedBoardPanel.setBackground(Color.WHITE);
-		/* padding do tabuleiro */
-		paddedBoardPanel.setBorder(new EmptyBorder(80, 20, 80, 80));
-		/* tamanho fixo dos botões */
-		int buttonSize = 50; // Adjust size as needed
-		/* posicionamento do painel com padding no painel do tabuleiro */
-		paddedBoardPanel.add(boardPanel, BorderLayout.CENTER);
-		/* posicionamento dos botões (células do tabuleiro) no painel do tabuleiro */
-		for (int i = 0; i < 50; i++) {
-			JButton boardButton = new JButton();
-			boardButton.setFont(f);
-			/* coloquei um tamanho pra poder mudar o tamanho dos sprites */
-			boardButton.setPreferredSize(new Dimension(buttonSize, buttonSize));
-			/* i / 10 = linha 
-			 * 1 % 10 = coluna
-			 * linha + coluna ser par/impar garante que na proxima linha, o padrão inverte */
-			if ((i / 10 + i % 10) % 2 == 0) {
-				boardButton.setBackground(Color.WHITE);
-			} else {
-				boardButton.setBackground(Color.BLACK);
-			}
-			/* adiciona ao HashMap que associa cada botão a uma linha, coluna */
-			String position = (i / 10) + "," + (i % 10);
-			boardButtons.put(position, boardButton);
-			/* adiciona o botão ao painel do tabuleiro */
-			boardPanel.add(boardButton);
-		}
-		/* posiciona os sprites do hashmap no tabuleiro */
-		for (Map.Entry<String, String> entry : actorPositions.entrySet()) {
-			/* ex. key = "BOSS" */
-			String key = entry.getKey();
-			/* ex. pos = "2,4" */
-			String pos = entry.getValue();
-			JButton button = boardButtons.get(pos);
-			/* tamanho do sprite dentro do botão */
-			Image sprite = getSpriteForKey(key).getScaledInstance(buttonSize + 60,
-																  buttonSize + 60,
-																  Image.SCALE_SMOOTH);
-			button.setIcon(new ImageIcon(sprite));
-		}
-	}
-	
 
-	private static Image getSpriteForKey(String key) {
-		Image sprite = null;
-		/* associa cada tipo de key no HashMap dos atores do jogo a um sprite */
-		switch (key) {
-			case "HERO_WARRIOR":
-				sprite = Settings.SPRITE_WARRIOR;
-				break;
-			case "HERO_PALADIN":
-				sprite = Settings.SPRITE_PALADIN;
-				break;
-			case "HERO_BARBARIAN":
-				sprite = Settings.SPRITE_BARBARIAN;
-				break;
-			case "MONSTER_1":
-				sprite = Settings.SPRITE_MONSTER_1;
-				break;
-			case "MONSTER_2":
-				sprite = Settings.SPRITE_MONSTER_2;
-				break;
-			case "MONSTER_3":
-				sprite = Settings.SPRITE_MONSTER_3;
-				break;
-			case "MONSTER_4":
-				sprite = Settings.SPRITE_MONSTER_4;
-				break;
-			case "BOSS":
-				sprite = Settings.SPRITE_BOSS;
-				break;
-			default:
-				if (key.startsWith("TRAP_STATIC")) {
-					sprite = Settings.SPRITE_STATIC_TRAP;
-				} else if (key.startsWith("TRAP_RANDOM")) {
-					sprite = Settings.SPRITE_RANDOM_TRAP;
-				} else if (key.startsWith("ELIXIR")) {
-					sprite = Settings.SPRITE_ELIXIR;
-				} else if (key.startsWith("TRAP_INVISIBLE")) {
-					sprite = Settings.SPRITE_INVISIBLE_TRAP;
+    private static void setupBoardPanel() {
+        int buttonSize = 50;
+		
+		/* layout do painel */
+        boardPanel.setBackground(Color.WHITE);
+        paddedBoardPanel.setBackground(Color.WHITE);
+        paddedBoardPanel.setBorder(new EmptyBorder(80, 20, 80, 80));
+        paddedBoardPanel.add(boardPanel, BorderLayout.CENTER);	
+		/* botõoes do painel */
+        for (int i = 0; i < 50; i++) {
+            JButton boardButton = new JButton();
+            boardButton.setFont(f);
+            boardButton.setPreferredSize(new Dimension(buttonSize, buttonSize));
+            if ((i / 10 + i % 10) % 2 == 0) {
+                boardButton.setBackground(Color.WHITE);
+            } else {
+                boardButton.setBackground(Color.BLACK);
+            }
+            String position = (i / 10) + "," + (i % 10);
+            boardButtons.put(position, boardButton);
+            boardPanel.add(boardButton);
+        }
+		/* atualiza o painel */
+        updateBoardIcons();
+    }
+
+    private static void updateBoardIcons() {
+		/* remove todos os sprites */
+        for (Map.Entry<String, JButton> entry : boardButtons.entrySet()) {
+            entry.getValue().setIcon(null);
+        }
+		/* posiciona os novos sprites */
+        for (Map.Entry<String, String> entry : actorPositions.entrySet()) {
+            String key = entry.getKey();
+            String pos = entry.getValue();
+            JButton button = boardButtons.get(pos);
+            Image sprite = getSpriteForKey(key).getScaledInstance(110, 110, Image.SCALE_SMOOTH);
+            button.setIcon(new ImageIcon(sprite));
+        }
+    }
+
+    private static Image getSpriteForKey(String key) {
+        Image sprite = null;
+
+        switch (key) {
+            case "HERO_WARRIOR":
+                sprite = Settings.SPRITE_WARRIOR;
+                break;
+            case "HERO_PALADIN":
+                sprite = Settings.SPRITE_PALADIN;
+                break;
+            case "HERO_BARBARIAN":
+                sprite = Settings.SPRITE_BARBARIAN;
+                break;
+            case "BOSS":
+                sprite = Settings.SPRITE_BOSS;
+                break;
+            default:
+				if (key.startsWith("MONSTER_INVISIBLE_1")) {
+					if (debugIsOn) {
+						sprite = Settings.SPRITE_MONSTER_1;
+					} else {
+						sprite = Settings.SPRITE_INVISIBLE_MONSTER_1;
+					}
+				} else if (key.startsWith("MONSTER_INVISIBLE_2")) {
+					if (debugIsOn) {
+						sprite = Settings.SPRITE_MONSTER_2;
+					} else {
+						sprite = Settings.SPRITE_INVISIBLE_MONSTER_2;
+					}
+				} else if (key.startsWith("MONSTER_INVISIBLE_3")) {
+					if (debugIsOn) {
+						sprite = Settings.SPRITE_MONSTER_3;
+					} else {
+						sprite = Settings.SPRITE_INVISIBLE_MONSTER_3;
+					}
+				} else if (key.startsWith("MONSTER_INVISIBLE_4")) {
+					if (debugIsOn) {
+						sprite = Settings.SPRITE_MONSTER_4;
+					} else {
+						sprite = Settings.SPRITE_INVISIBLE_MONSTER_4;
+					}
+				} else if (key.startsWith("TRAP_STATIC")) {
+                    sprite = Settings.SPRITE_STATIC_TRAP;
+                } else if (key.startsWith("TRAP_RANDOM")) {
+                    sprite = Settings.SPRITE_RANDOM_TRAP;
+                } else if (key.startsWith("TRAP_INVISIBLE_STATIC")) {
+					if (debugIsOn) {
+						sprite = Settings.SPRITE_STATIC_TRAP;
+					} else {
+						sprite = Settings.SPRITE_INVISIBLE_TRAP;
+					}
+                } else if (key.startsWith("TRAP_INVISIBLE_RANDOM")) {
+					if (debugIsOn) {
+						sprite = Settings.SPRITE_RANDOM_TRAP;
+					} else {
+						sprite = Settings.SPRITE_INVISIBLE_TRAP;
+					}
+                } else if (key.startsWith("ELIXIR_INVISIBLE")) {
+					if (debugIsOn) {
+						sprite = Settings.SPRITE_ELIXIR;
+					} else {
+						sprite = Settings.SPRITE_INVISIBLE_ELIXIR;
+					}
 				}
-				break;
-		}
-		return sprite;
-	}
-	
+                break;
+        }
+        return sprite;
+    }
 
-	private static void setupButtonListeners() {
-		/* boardButton -> se movimentar o heroi estiver ativado */
-		for (Map.Entry<String, JButton> entry : boardButtons.entrySet()) {
+    private static String getPositionFromButton(JButton button) {
+        for (Map.Entry<String, JButton> entry : boardButtons.entrySet()) {
+            if (entry.getValue().equals(button)) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
+    private static void moveHero(String heroKey, String newPosition) {
+		boolean trapTriggered = false;
+		Trap t = null;
+		String trapKey = null;
+		String elixirKey = null;
+
+		for (Map.Entry<String, String> entry : actorPositions.entrySet()) {
+			String key = entry.getKey();
+			String position = entry.getValue();
+
+			if (position.equals(newPosition)) {
+				if (key.startsWith("TRAP_INVISIBLE_RANDOM") || key.startsWith("TRAP_RANDOM")) {
+					t = new Trap(true);
+					trapTriggered = true;
+					trapKey = key;
+					break;
+				} else if (key.startsWith("TRAP_INVISIBLE_STATIC") || key.startsWith("TRAP_STATIC")) {
+					t = new Trap(false);
+					trapTriggered = true;
+					trapKey = key;
+					break;
+				} else if (key.startsWith("ELIXIR")) {
+					elixirKey = key;
+
+					JOptionPane.showMessageDialog(null, 
+						"Você encontrou um elixir!", 
+						"Elixir encontrado", 
+						JOptionPane.INFORMATION_MESSAGE);
+	
+					actorPositions.remove(elixirKey);
+					h.foundElixir();
+					lblElixir.setText(" " + h.getNumberOfElixirs());
+					labelPanel.repaint();
+					labelPanel.revalidate();
+					actorPositions.put(heroKey, newPosition);
+					return;
+				}
+			}
+		}
+
+		if (trapTriggered && t != null) {
+			int damageTaken = t.attack(h);
+
+			JOptionPane.showMessageDialog(null, 
+				"Você tomou " + damageTaken + " de dano de uma armadilha!", 
+				"Dano recebido por armadilha", 
+				JOptionPane.INFORMATION_MESSAGE);
+
+			actorPositions.remove(trapKey);
+		}
+		lblHealth.setText(" " + h.getHealthPoints() + "/" + Settings.HERO_HEALTH_POINTS);
+		labelPanel.repaint();
+		labelPanel.revalidate();
+		actorPositions.put(heroKey, newPosition);
+	}
+
+	private static void revealTrap() {
+		String keyToRemove = null;
+		String keyToAdd = null;
+		String positionToAdd = null;
+
+		for (Map.Entry<String, String> entry : actorPositions.entrySet()) {
+			String key = entry.getKey();
+			String position = entry.getValue();
+			int randomFactor = ThreadLocalRandom.current().nextInt(0, 13);
+
+			if (key.startsWith("TRAP_INVISIBLE_STATIC") && randomFactor == 1) {
+				keyToAdd = key.replace("TRAP_INVISIBLE_STATIC", "TRAP_STATIC");
+				positionToAdd = position;
+				keyToRemove = key;
+				break;
+			} else if (key.startsWith("TRAP_INVISIBLE_RANDOM")) {
+				keyToAdd = key.replace("TRAP_INVISIBLE_RANDOM", "TRAP_RANDOM");
+				positionToAdd = position;
+				keyToRemove = key;
+				break;
+			}
+		}
+
+		if (keyToRemove != null) {
+			actorPositions.remove(keyToRemove);
+			actorPositions.put(keyToAdd, positionToAdd);
+		}
+	}
+
+    private static void setupButtonListeners() {
+        ActionListener boardButtonListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+				if (btnMoveHero.isSelected()) {
+					JButton sourceButton = (JButton) e.getSource();
+					String clickedPos = getPositionFromButton(sourceButton);
+					String heroPos = actorPositions.get(heroKey);
+
+					if (heroPos != null && isAdjacent(heroPos, clickedPos)) {
+						moveHero(heroKey, clickedPos);
+						updateBoardIcons();
+					}
+				}
+			}
+        };
+		ActionListener hintButtonListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+				if (hintCounter < 3) {
+					revealTrap();
+					updateBoardIcons();
+					hintCounter++;
+					if (hintCounter >= 3) {
+						btnHint.setEnabled(false);
+					}
+				}
+			}
+		};
+		ActionListener backButtonListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+				btnHint.setEnabled(true);
+				hintCounter = 0;
+				labelPanel.removeAll();
+				labelPanel.repaint();
+				boardPanel.removeAll();
+				boardPanel.repaint();	
+				MainPanel.showMenu();
+			}
+        };
+
+        for (Map.Entry<String, JButton> entry : boardButtons.entrySet()) {
             entry.getValue().addActionListener(boardButtonListener);
         }
-		/* btnBack -> mostra o painel do menu 
-		 * TODO menu de "Novo jogo" "Reiniciar" etc */
-		btnBack.addActionListener(e -> MainPanel.showMenu());
+
+		btnHint.addActionListener(hintButtonListener);
+        btnBack.addActionListener(backButtonListener);
+    }
+
+	private static boolean isAdjacent(String currentPos, String targetPos) {
+        String[] current = currentPos.split(",");
+        String[] target = targetPos.split(",");
+        int currentX = Integer.parseInt(current[0].trim());
+        int currentY = Integer.parseInt(current[1].trim());
+        int targetX = Integer.parseInt(target[0].trim());
+        int targetY = Integer.parseInt(target[1].trim());
+
+        return (Math.abs(currentX - targetX) == 1 && currentY == targetY) ||
+               (Math.abs(currentY - targetY) == 1 && currentX == targetX);
+    }
+
+	public static void disableHintButton() {
+		btnHint.setEnabled(false);
 	}
 
-	public static JPanel getPanel() { return pGame; }
+    public static JPanel getPanel() { return pGame; }
 }
 

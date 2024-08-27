@@ -11,10 +11,13 @@ import javax.swing.Box;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import config.Settings;
 
 public class MenuPanel {
+	public static boolean debugIsOn = false;
 	private static Font f = Settings.FONT;
 	private static int w = Settings.WINDOW_WIDTH;
 	private static int h = Settings.WINDOW_HEIGHT;
@@ -61,11 +64,27 @@ public class MenuPanel {
 	}
 
 	private static void setupButtonListeners() {
-		/* new game -> mostra o painel de jogo */
-		btnNewGame.addActionListener(e -> MainPanel.showGame());
-		/* TODO botão DEBUG */
-		// btnDebug(e -> MainPanel.showGame("DEBUG"))
-		/* exit -> sai do jogo*/
+		ActionListener newGameButtonListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+				debugIsOn = false;
+				GamePanel.initializeGame();
+				MainPanel.showGame();
+			}
+        };
+
+		ActionListener debugButtonListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	GamePanel.disableHintButton();
+				debugIsOn = true;
+				GamePanel.initializeGame();
+				MainPanel.showGame();
+			}
+        };
+
+		btnNewGame.addActionListener(newGameButtonListener);
+		btnDebug.addActionListener(debugButtonListener);
 		btnExit.addActionListener(e -> System.exit(0));
 	}
 
