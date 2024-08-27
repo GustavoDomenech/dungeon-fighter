@@ -12,8 +12,6 @@
 
 * MECANICA DA BATALHA
 
-![TODO](assets/images/TODO-23-08.png)
-
 ## USEFUL
 
 * [BUTTON SOUND EFFECTS](https://www.youtube.com/watch?v=q8ZLBOFQ2g0)

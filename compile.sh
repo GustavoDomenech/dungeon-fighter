@@ -2,5 +2,8 @@
 
 set -xe
 
+. ./clean.sh
+
 ./clean.sh
-javac Main.java && java Main
+
+javac $GAME_DIR/Main.java && java Main

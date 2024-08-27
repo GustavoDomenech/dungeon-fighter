@@ -53,22 +53,32 @@ public class Settings {
 	public static Image SPRITE_RANDOM_TRAP;
 	public static Image SPRITE_INVISIBLE_TRAP;
 	public static Image SPRITE_ELIXIR;
+	public static Image SPRITE_INVISIBLE_ELIXIR;
+	public static Image SPRITE_INVISIBLE_MONSTER_1;
+    public static Image SPRITE_INVISIBLE_MONSTER_2;
+    public static Image SPRITE_INVISIBLE_MONSTER_3;
+    public static Image SPRITE_INVISIBLE_MONSTER_4;
 	static {
-		/* sprite exception handling */
+		/* image exception handling */
 		try {
 			BACKGROUND = ImageIO.read(new File("assets/images/background.png"));
-			SPRITE_WARRIOR = ImageIO.read(new File("sprites/grupo_hackiado.png"));
+			SPRITE_WARRIOR = ImageIO.read(new File("sprites/warrior.png"));
 			SPRITE_PALADIN = ImageIO.read(new File("sprites/paladin.png"));
 			SPRITE_BARBARIAN = ImageIO.read(new File("sprites/barbarian.png"));
-			SPRITE_MONSTER_1 = ImageIO.read(new File("sprites/monster_1-NAO-EH-TRANSPARENTE.png"));
-			SPRITE_MONSTER_2 = ImageIO.read(new File("sprites/monster_2-NAO-EH-TRANSPARENTE.png"));
-			SPRITE_MONSTER_3 = ImageIO.read(new File("sprites/monster_3-NAO-EH-TRANSPARENTE.png"));
+			SPRITE_MONSTER_1 = ImageIO.read(new File("sprites/monster_1.png"));
+			SPRITE_MONSTER_2 = ImageIO.read(new File("sprites/monster_2.png"));
+			SPRITE_MONSTER_3 = ImageIO.read(new File("sprites/monster_3.png"));
 			SPRITE_MONSTER_4 = ImageIO.read(new File("sprites/monster_4.png"));
-			SPRITE_BOSS = ImageIO.read(new File("sprites/boss-NAO-EH-TRANSPARENTE.png"));
+			SPRITE_INVISIBLE_MONSTER_1 = ImageIO.read(new File("sprites/invisible.png"));
+			SPRITE_INVISIBLE_MONSTER_2 = ImageIO.read(new File("sprites/invisible.png"));
+			SPRITE_INVISIBLE_MONSTER_3 = ImageIO.read(new File("sprites/invisible.png"));
+			SPRITE_INVISIBLE_MONSTER_4 = ImageIO.read(new File("sprites/invisible.png"));
+			SPRITE_BOSS = ImageIO.read(new File("sprites/boss.jpg"));
 			SPRITE_STATIC_TRAP = ImageIO.read(new File("sprites/static_trap.png"));
 			SPRITE_RANDOM_TRAP = ImageIO.read(new File("sprites/random_trap.png"));
 			SPRITE_ELIXIR = ImageIO.read(new File("sprites/elixir.png"));
-			SPRITE_INVISIBLE_TRAP = ImageIO.read(new File("sprites/invisible_trap.png"));
+			SPRITE_INVISIBLE_TRAP = ImageIO.read(new File("sprites/invisible.png"));
+			SPRITE_INVISIBLE_ELIXIR = ImageIO.read(new File("sprites/invisible.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
