@@ -15,8 +15,9 @@ public class Trap {
         }
     }
 
-    public void attack(Character c) {
+    public int attack(Character c) {
         c.takeDamage(this.damage);
+		return this.damage;
     }
 
 }

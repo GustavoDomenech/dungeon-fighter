@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Image;
+import javax.swing.JOptionPane;
 
 import config.Settings;
 
@@ -17,6 +18,13 @@ public class Hero extends Character {
     }
 
     public void useElixir() {
+		if (numberOfElixirs == 0) {
+			JOptionPane.showMessageDialog(null, 
+				"Você não possui nenhum elixir!", 
+				"Não possui elixir", 
+				JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
         this.healthPoints += Settings.ELIXIR_HEAL_AMOUNT;
         this.numberOfElixirs -= 1;
         this.healthPoints = Math.min(this.healthPoints, Settings.HERO_HEALTH_POINTS);
@@ -46,4 +54,6 @@ public class Hero extends Character {
     }
 
 	public int getNumberOfElixirs() { return numberOfElixirs; }
+
+	public void foundElixir() { this.numberOfElixirs++; }
 }
