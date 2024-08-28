@@ -9,7 +9,6 @@ public class NewGame {
 	private String heroKey;
 
     public NewGame(String heroClass, String heroName) {
-        heroKey = "HERO_" + heroClass.toUpperCase();
         actorPositions = new HashMap<>();
 		String[] monsters = { "MONSTER_INVISIBLE_1", "MONSTER_INVISIBLE_2", "MONSTER_INVISIBLE_3", "MONSTER_INVISIBLE_4" };
         String[] traps = {
@@ -22,7 +21,7 @@ public class NewGame {
         };
         String[] elixirs = { "ELIXIR_INVISIBLE_1", "ELIXIR_INVISIBLE_2", "ELIXIR_INVISIBLE_3" };
 		
-		actorPositions.put(heroKey, generateUniquePosition(0));
+		actorPositions.put(heroClass, generateUniquePosition(0));
 
         for (int i = 0 ; i < monsters.length; i++) {
             actorPositions.put(monsters[i], generateUniquePosition(i));

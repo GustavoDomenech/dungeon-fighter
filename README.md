@@ -1,21 +1,53 @@
 # DUNGEON-FIGHTER
 
-
 ## TO DO
 
-
-* PELO AMOR DE DEUS ATUALIZA A LISTA DE FUNÇÕES BONITINHO IUAL A java.awt.Graphics.drawImage()
-
-* DIAGRAMA DE CLASSES
-
-* RELATORIOOOOOOOOOOO
+* Quando o jogo começa, o jogador escolhe o seu herói de acordo com um tipo e recebe X pontos para distribuir entre seus atributos. 
 
 * MECANICA DA BATALHA
+> * "ingerir elixir”, "atacar", "usar habilidade especial", "fugir da batalha" \
+> * atacar ou usar a habilidade especial. <- botoes \
+> * O ataque ocorre da seguinte forma: o primeiro ataca sorteando um número de 0 a W e somando esse número ao valor de seu ataque.  \
+> * O segundo se defende sorteando um número de 0 a W e somando esse número ao valor de  sua defesa.  \
+> * O dano é o valor do ataque do primeiro menos o valor da defesa do segundo \
+> * Se o dano é positivo, o segundo perde vida, caso contrário, o primeiro que perde. 
 
-## USEFUL
+* herois possuem habilidades especiais 
+> * Guerreiro: Postura Defensiva - Aumenta sua defesa em 50% durante duas rodadas \
+> * Paladino: Recuperação - Recupera 50% dos seus pontos de vida totais \
+> * Bárbaro: Golpe furioso - Desfere um ataque que causa 50% a mais de dano 
 
-* [BUTTON SOUND EFFECTS](https://www.youtube.com/watch?v=q8ZLBOFQ2g0)
+* Ao matar um monstro, o personagem do jogador recebe uma recompensa em um atributo aleatório
 
+* Uma introdução com a apresentação do tema do jogo  
+
+* A descrição geral de como o jogo foi implementado 
+
+* Diagrama de classes
+> * nome das classes \
+> * relacionamentos \
+> * atributos  \
+> * métodos(opcional)
+
+* Uma breve explicação de como e onde foram aplicados os conceitos de orientação à objetos, tais como: 
+> * herança \
+> * polimorfismo \
+> * interface \
+> * exceção \
+> * concorrência \
+> * classe abstrata
+
+* Passos para executar o programa implementado.
+> * Passo-a-passo de como jogar. \
+> * Para isso, use prints das janelas durante o jogo.
+
+* Um resumo das dificuldades encontradas durante o trabalho.
+
+* Uma conclusão com o relato da experiência em desenvolver o jogo em grupo.
+
+* Proposta de Trabalhos Futuros
+
+* PELO AMOR DE DEUS ATUALIZA A LISTA DE FUNÇÕES BONITINHO IUAL A java.awt.Graphics.drawImage()
 
 ## LIBRARIES
 
@@ -55,33 +87,6 @@
 * [java.io.IOException](https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/io/IOException.html)
 * [java.io.IOException.printStackTrace()](https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Throwable.html#printStackTrace())
 * [java.util.concurrent.ThreadLocalRandom](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadLocalRandom.html)
-
-
-## GAME
-
-* herois possuem atributos
-> ataque \
-> defesa \
-> saude 
-
-* 3 tipos de herói
-> barbaro \
-> paladino \
-> guerreiro 
-
-* herois possuem habilidades especiais 
-> Guerreiro: Postura Defensiva - Aumenta sua defesa em 50% durante duas rodadas \
-> Paladino: Recuperação - Recupera 50% dos seus pontos de vida totais \
-> Bárbaro: Golpe furioso - Desfere um ataque que causa 50% a mais de dano 
-
-
-1. Quando o jogo começa, o jogador escolhe o seu herói de acordo com um tipo e recebe:
-    - X pontos para distribuir entre seus atributos. 
-    - Os pontos de vida serão Y + saúde 
-
-    
-![CALABOUÇO](assets/images/board-example.png)
-
 
 
 

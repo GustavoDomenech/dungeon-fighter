@@ -20,6 +20,7 @@ public class Settings {
 	/* application settings */
 	public static Font FONT;
 	public static Image BACKGROUND;
+	public static Image VERSUS;
 	/* window settings */
 	public static final int WINDOW_WIDTH = 1488;
     public static final int WINDOW_HEIGHT = 768;
@@ -28,7 +29,7 @@ public class Settings {
 	public static final int BOARD_COLUMNS = 10;
 	/* hero settings */
 	public static final int HERO_ATTACK_POINTS = 60;
-	public static final int HERO_DEFENSE_POINTS = 30;
+	public static final int HERO_DEFENSE_POINTS = 60;
 	public static final int HERO_HEALTH_POINTS = Y + 60;
 	public static final int ELIXIR_HEAL_AMOUNT = V;
 	/* monster settings */
@@ -62,6 +63,7 @@ public class Settings {
 		/* image exception handling */
 		try {
 			BACKGROUND = ImageIO.read(new File("assets/images/background.png"));
+			VERSUS = ImageIO.read(new File("sprites/versus.png"));
 			SPRITE_WARRIOR = ImageIO.read(new File("sprites/warrior.png"));
 			SPRITE_PALADIN = ImageIO.read(new File("sprites/paladin.png"));
 			SPRITE_BARBARIAN = ImageIO.read(new File("sprites/barbarian.png"));

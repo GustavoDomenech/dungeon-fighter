@@ -1,5 +1,6 @@
 package ui;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -28,6 +29,7 @@ import game.Hero;
 import game.Trap;
 import game.Monster;
 import ui.MenuPanel;
+import ui.BattlePanel;
 import config.Settings;
 
 public class GamePanel {
@@ -35,9 +37,9 @@ public class GamePanel {
 	private static boolean debugIsOn;
     private static JPanel pGame = new JPanel(new BorderLayout());
     private static JPanel leftPanel = new JPanel(new BorderLayout());
-    private static JPanel boardPanel = new JPanel(new GridLayout(5, 10));
+    public static JPanel boardPanel = new JPanel(new GridLayout(5, 10));
     private static JPanel paddedBoardPanel = new JPanel(new BorderLayout());
-    private static JPanel labelPanel = new JPanel();
+    public static JPanel labelPanel = new JPanel();
     private static JPanel buttonPanel = new JPanel();
     private static JToggleButton btnMoveHero = new JToggleButton("Movimentar herói");
     private static JButton btnHint = new JButton("Dica");
@@ -48,22 +50,35 @@ public class GamePanel {
     private static JLabel lblElixir = new JLabel();
     private static HashMap<String, JButton> boardButtons = new HashMap<>();
     private static HashMap<String, String> actorPositions;
+	private static NewGame ng;
     private static Hero h;
+	private static Monster m1;
+	private static Monster m2;
+	private static Monster m3;
+	private static Monster m4;
+	private static Monster m5;
+	private static Monster b;
 	private static int hintCounter = 0;
 	private static String heroKey;
+	private static String[] monsterNames = Settings.MONSTER_NAMES;
 
 	public static void initializeGame() {
 		debugIsOn = MenuPanel.debugIsOn;
 		/* TODO a heroKey tem q vir do painel SelectHero */
 		/* TODO cópia do HashMap das posições pro menu "Reiniciar" ou "Novo Jogo"*/
-        NewGame ng = new NewGame("Warrior", "Aragorn");
-        h = new Hero("Warrior", "Aragorn");
 		heroKey = "HERO_WARRIOR";
+        ng = new NewGame("HERO_WARRIOR", "Aragorn");
+        h = new Hero("HERO_WARRIOR", "Aragorn");
+		m1 = new Monster(monsterNames[0], "1");
+		m2 = new Monster(monsterNames[1], "2");
+		m3 = new Monster(monsterNames[2], "3");
+		m4 = new Monster(monsterNames[3], "4");
+		b = new Monster(Settings.BOSS_NAME, "BOSS");
         actorPositions = ng.getActorPositions();
         setupGamePanel();
     }
 
-    private static void setupGamePanel() {
+    public static void setupGamePanel() {
         setupLabelPanel();
         setupButtonPanel();
         setupLeftPanel();
@@ -125,7 +140,7 @@ public class GamePanel {
         leftPanel.add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    private static void setupBoardPanel() {
+    public static void setupBoardPanel() {
         int buttonSize = 50;
 		
 		/* layout do painel */
@@ -133,7 +148,7 @@ public class GamePanel {
         paddedBoardPanel.setBackground(Color.WHITE);
         paddedBoardPanel.setBorder(new EmptyBorder(80, 20, 80, 80));
         paddedBoardPanel.add(boardPanel, BorderLayout.CENTER);	
-		/* botõoes do painel */
+		/* botões do painel */
         for (int i = 0; i < 50; i++) {
             JButton boardButton = new JButton();
             boardButton.setFont(f);
@@ -151,7 +166,7 @@ public class GamePanel {
         updateBoardIcons();
     }
 
-    private static void updateBoardIcons() {
+    public static void updateBoardIcons() {
 		/* remove todos os sprites */
         for (Map.Entry<String, JButton> entry : boardButtons.entrySet()) {
             entry.getValue().setIcon(null);
@@ -166,7 +181,7 @@ public class GamePanel {
         }
     }
 
-    private static Image getSpriteForKey(String key) {
+    public static Image getSpriteForKey(String key) {
         Image sprite = null;
 
         switch (key) {
@@ -179,6 +194,18 @@ public class GamePanel {
             case "HERO_BARBARIAN":
                 sprite = Settings.SPRITE_BARBARIAN;
                 break;
+			case "MONSTER_1":
+				sprite = Settings.SPRITE_MONSTER_1;
+				break;
+			case "MONSTER_2":
+				sprite = Settings.SPRITE_MONSTER_2;
+				break;
+			case "MONSTER_3":
+				sprite = Settings.SPRITE_MONSTER_3;
+				break;
+			case "MONSTER_4":
+				sprite = Settings.SPRITE_MONSTER_4;
+				break;
             case "BOSS":
                 sprite = Settings.SPRITE_BOSS;
                 break;
@@ -246,9 +273,12 @@ public class GamePanel {
 
     private static void moveHero(String heroKey, String newPosition) {
 		boolean trapTriggered = false;
-		Trap t = null;
+		boolean monsterTriggered = false;
 		String trapKey = null;
+		String monsterKey = null;
 		String elixirKey = null;
+		Trap t = null;
+		Monster m = null;
 
 		for (Map.Entry<String, String> entry : actorPositions.entrySet()) {
 			String key = entry.getKey();
@@ -264,6 +294,50 @@ public class GamePanel {
 					t = new Trap(false);
 					trapTriggered = true;
 					trapKey = key;
+					break;
+				} else if (key.startsWith("MONSTER_INVISIBLE_1")) {
+					m = m1;
+					monsterTriggered = true;
+					monsterKey = key;
+					break;
+				} else if (key.startsWith("MONSTER_INVISIBLE_2")) {
+					m = m2;
+					monsterTriggered = true;
+					monsterKey = key;
+					break;
+				} else if (key.startsWith("MONSTER_INVISIBLE_3")) {
+					m = m3;
+					monsterTriggered = true;
+					monsterKey = key;
+					break;
+				} else if (key.startsWith("MONSTER_INVISIBLE_4")) {
+					m = m4;
+					monsterTriggered = true;
+					monsterKey = key;
+					break;
+				} else if (key.startsWith("MONSTER_1")) {
+					m = m1;
+					monsterTriggered = true;
+					monsterKey = key;
+					break;
+				} else if (key.startsWith("MONSTER_2")) {
+					m = m2;
+					monsterTriggered = true;
+					monsterKey = key;
+					break;
+				} else if (key.startsWith("MONSTER_3")) {
+					m = m3;
+					monsterTriggered = true;
+					monsterKey = key;
+					break; 
+				} else if (key.startsWith("MONSTER_4")) {
+					m = m4;
+					monsterTriggered = true;
+					monsterKey = key;
+					break;
+				} else if (key.startsWith("BOSS")) {
+					m = b;
+					monsterTriggered = true;
 					break;
 				} else if (key.startsWith("ELIXIR")) {
 					elixirKey = key;
@@ -294,10 +368,24 @@ public class GamePanel {
 
 			actorPositions.remove(trapKey);
 		}
+
+		if (monsterTriggered) {
+			BattlePanel.initializeBattle(h, m);
+			MainPanel.showBattle();
+		}
+
 		lblHealth.setText(" " + h.getHealthPoints() + "/" + Settings.HERO_HEALTH_POINTS);
 		labelPanel.repaint();
 		labelPanel.revalidate();
 		actorPositions.put(heroKey, newPosition);
+
+		if (m.isDead()) {
+			actorPositions.remove(monsterKey);
+			actorPositions.put(heroKey, newPosition);
+		} else {
+			revealMonster(monsterKey);
+		}
+
 	}
 
 	private static void revealTrap() {
@@ -317,6 +405,30 @@ public class GamePanel {
 				break;
 			} else if (key.startsWith("TRAP_INVISIBLE_RANDOM")) {
 				keyToAdd = key.replace("TRAP_INVISIBLE_RANDOM", "TRAP_RANDOM");
+				positionToAdd = position;
+				keyToRemove = key;
+				break;
+			}
+		}
+
+		if (keyToRemove != null) {
+			actorPositions.remove(keyToRemove);
+			actorPositions.put(keyToAdd, positionToAdd);
+		}
+	}
+
+	private static void revealMonster(String invisibleMonsterKey) {
+		String keyToRemove = null;
+		String keyToAdd = null;
+		String positionToAdd = null;
+
+		for (Map.Entry<String, String> entry : actorPositions.entrySet()) {
+			String key = entry.getKey();
+			String position = entry.getValue();
+
+			if (key.equals(invisibleMonsterKey)) {
+				String newMonsterKey = key.replace("INVISIBLE_", "");
+				keyToAdd = newMonsterKey;
 				positionToAdd = position;
 				keyToRemove = key;
 				break;
@@ -374,8 +486,9 @@ public class GamePanel {
         for (Map.Entry<String, JButton> entry : boardButtons.entrySet()) {
             entry.getValue().addActionListener(boardButtonListener);
         }
-
+		
 		btnHint.addActionListener(hintButtonListener);
+		/* TODO fazer um menu de "Reiniciar" ou "Novo Jogo" */
         btnBack.addActionListener(backButtonListener);
     }
 

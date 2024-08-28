@@ -16,14 +16,11 @@ public abstract class Character {
         this.healthPoints = healthPoints;
     }
 
-    public void attack(Character c) {
-        c.takeDamage(this.attackPoints);
+    public int takeDamage(int damage) {
+        this.healthPoints = Math.max(0, this.healthPoints - damage);
+		return damage;
     }
 
-    public void takeDamage(int damage) {
-        this.healthPoints = Math.max(0, this.healthPoints - damage);
-    }
-	
 	public String getName() { return name; }
 
 	public int getAttackPoints() { return attackPoints; }
@@ -31,6 +28,11 @@ public abstract class Character {
 	public int getDefensePoints() { return defensePoints; }
 	
 	public int getHealthPoints() { return healthPoints; }
+
+	public void setAttackPoints(int attackPoints) { this.attackPoints = attackPoints; };
 	
+	public void setDefensePoints(int defensePoints) { this.defensePoints = defensePoints; };
+    
+	public void setHealthPoints(int healthPoints) { this.healthPoints = healthPoints; };
 }
 
