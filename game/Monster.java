@@ -36,7 +36,7 @@ public class Monster extends Character {
         }     
 	}
 
-	public String getMonsterType() { return type; }
+	public String getMonsterType() { return this.type; }
 
 	public void toggleUsedSpecialAbilityOn() {
 		if (this.usedSpecialAbilityOn) {

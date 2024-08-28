@@ -17,10 +17,9 @@ public class Hero extends Character {
     }
 
     public int useElixir() {
-		int healAmount = Math.min(this.healthPoints, Settings.HERO_HEALTH_POINTS);
-        this.healthPoints += healAmount;
+        this.healthPoints += Settings.ELIXIR_HEAL_AMOUNT;
         this.numberOfElixirs -= 1;
-		return healAmount;
+		return Settings.ELIXIR_HEAL_AMOUNT;
     }
 
     public int useSpecialAbility(Monster m, boolean usedSpecialAbility) {

@@ -62,8 +62,8 @@ public class GamePanel {
 		/* TODO a heroKey tem q vir do painel SelectHero */
 		/* TODO cópia do HashMap das posições pro menu "Reiniciar" ou "Novo Jogo"*/
 		heroKey = "HERO_WARRIOR";
-        ng = new NewGame("HERO_WARRIOR", "Aragorn");
-        h = new Hero("HERO_WARRIOR", "Aragorn");
+        ng = new NewGame(heroKey, "Guilherme");
+        h = new Hero(heroKey, "Guilherme");
 		m1 = new Monster(monsterNames[0], "1");
 		m2 = new Monster(monsterNames[1], "2");
 		m3 = new Monster(monsterNames[2], "3");
@@ -87,7 +87,7 @@ public class GamePanel {
     private static void setupLabelPanel() {
         /* definição e formatação do texto */
 		lblHealth.setText(" " + h.getHealthPoints() + "/" + Settings.HERO_HEALTH_POINTS);
-        lblHealth.setFont(f.deriveFont(48f));
+        lblHealth.setFont(f.deriveFont(36f));
         lblAttack.setText("󰓥 " + h.getAttackPoints());
         lblAttack.setFont(f.deriveFont(36f));
         lblDefense.setText("󰒘 " + h.getDefensePoints());

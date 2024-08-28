@@ -70,23 +70,13 @@ public class BattlePanel {
 
     private static void setupUpperPanel() {
 		String monsterType = m.getMonsterType();
-
-		JLabel lblHeroSprite = new JLabel(new ImageIcon(
-					GamePanel.getSpriteForKey(h.getHeroClass()).getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
-		JLabel lblVersus = new JLabel(new ImageIcon(
-					Settings.VERSUS.getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
-		
-		if (monsterType.equals("BOSS")) {
-			System.out.println(monsterType);
-			JLabel lblMonster = new JLabel(new ImageIcon(
-					GamePanel.getSpriteForKey(monsterType).getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
-		} else if (monsterType.equals("1") || monsterType.equals("2") 
-				|| monsterType.equals("3") || monsterType.equals("4")) {
-			JLabel lblMonster = new JLabel(new ImageIcon(
-					GamePanel.getSpriteForKey("MONSTER_" + monsterType).getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
-		}
-
         JPanel spritesPanel = new JPanel();
+		JLabel lblHeroSprite = new JLabel(new ImageIcon(
+					GamePanel.getSpriteForKey(h.getHeroClass()).getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
+		JLabel lblVersus = new JLabel(new ImageIcon(
+					Settings.VERSUS.getScaledInstance(300, 300, Image.SCALE_SMOOTH)));	
+		JLabel lblMonster = new JLabel(new ImageIcon(
+					GamePanel.getSpriteForKey("MONSTER_"+ monsterType).getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
 		
         spritesPanel.setLayout(new BoxLayout(spritesPanel, BoxLayout.X_AXIS));
         spritesPanel.add(Box.createHorizontalGlue());
@@ -310,8 +300,8 @@ public class BattlePanel {
 			MainPanel.showMenu();
 			if (h.getHeroClass().equals("HERO_WARRIOR")) {
 				h.useSpecialAbility(m, true);
-				btnSpecialAbility.setEnabled(true);
 			}
+				btnSpecialAbility.setEnabled(true);
 		} else {
 			JOptionPane.showMessageDialog(pBattle, "Você venceu!");
 			m.wasKilled();
@@ -325,8 +315,8 @@ public class BattlePanel {
 			h.earnRandomStatPoints();
 			if (h.getHeroClass().equals("HERO_WARRIOR")) {
 				h.useSpecialAbility(m, true);
-				btnSpecialAbility.setEnabled(true);
 			}
+			btnSpecialAbility.setEnabled(true);
 		}
 	}
 

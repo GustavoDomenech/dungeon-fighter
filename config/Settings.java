@@ -22,7 +22,7 @@ public class Settings {
 	public static Image BACKGROUND;
 	public static Image VERSUS;
 	/* window settings */
-	public static final int WINDOW_WIDTH = 1488;
+	public static final int WINDOW_WIDTH = 1366;
     public static final int WINDOW_HEIGHT = 768;
 	/* board settings */
 	public static final int BOARD_ROWS = 5;
@@ -75,7 +75,7 @@ public class Settings {
 			SPRITE_INVISIBLE_MONSTER_2 = ImageIO.read(new File("sprites/invisible.png"));
 			SPRITE_INVISIBLE_MONSTER_3 = ImageIO.read(new File("sprites/invisible.png"));
 			SPRITE_INVISIBLE_MONSTER_4 = ImageIO.read(new File("sprites/invisible.png"));
-			SPRITE_BOSS = ImageIO.read(new File("sprites/boss.jpg"));
+			SPRITE_BOSS = ImageIO.read(new File("sprites/boss.png"));
 			SPRITE_STATIC_TRAP = ImageIO.read(new File("sprites/static_trap.png"));
 			SPRITE_RANDOM_TRAP = ImageIO.read(new File("sprites/random_trap.png"));
 			SPRITE_ELIXIR = ImageIO.read(new File("sprites/elixir.png"));
