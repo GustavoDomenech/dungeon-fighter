@@ -50,17 +50,12 @@ public class GamePanel {
     private static JLabel lblElixir = new JLabel();
     private static HashMap<String, JButton> boardButtons = new HashMap<>();
     private static HashMap<String, String> actorPositions;
-	private static NewGame ng;
-    private static Hero h;
-	private static Monster m1;
-	private static Monster m2;
-	private static Monster m3;
-	private static Monster m4;
-	private static Monster m5;
-	private static Monster b;
-	private static int hintCounter = 0;
-	private static String heroKey;
 	private static String[] monsterNames = Settings.MONSTER_NAMES;
+	private static NewGame ng;
+	private static String heroKey;
+    private static Hero h;
+	private static Monster m1, m2, m3, m4, b;
+	private static int hintCounter = 0;
 
 	public static void initializeGame() {
 		debugIsOn = MenuPanel.debugIsOn;
@@ -272,72 +267,73 @@ public class GamePanel {
     }
 
     private static void moveHero(String heroKey, String newPosition) {
-		boolean trapTriggered = false;
-		boolean monsterTriggered = false;
+		boolean foundTrap = false;
+		boolean foundMonster = false;
 		String trapKey = null;
 		String monsterKey = null;
 		String elixirKey = null;
+		String position = null;
 		Trap t = null;
 		Monster m = null;
 
 		for (Map.Entry<String, String> entry : actorPositions.entrySet()) {
 			String key = entry.getKey();
-			String position = entry.getValue();
+			position = entry.getValue();
 
 			if (position.equals(newPosition)) {
 				if (key.startsWith("TRAP_INVISIBLE_RANDOM") || key.startsWith("TRAP_RANDOM")) {
 					t = new Trap(true);
-					trapTriggered = true;
+					foundTrap = true;
 					trapKey = key;
 					break;
 				} else if (key.startsWith("TRAP_INVISIBLE_STATIC") || key.startsWith("TRAP_STATIC")) {
 					t = new Trap(false);
-					trapTriggered = true;
+					foundTrap = true;
 					trapKey = key;
 					break;
 				} else if (key.startsWith("MONSTER_INVISIBLE_1")) {
 					m = m1;
-					monsterTriggered = true;
+					foundMonster = true;
 					monsterKey = key;
 					break;
 				} else if (key.startsWith("MONSTER_INVISIBLE_2")) {
 					m = m2;
-					monsterTriggered = true;
+					foundMonster = true;
 					monsterKey = key;
 					break;
 				} else if (key.startsWith("MONSTER_INVISIBLE_3")) {
 					m = m3;
-					monsterTriggered = true;
+					foundMonster = true;
 					monsterKey = key;
 					break;
 				} else if (key.startsWith("MONSTER_INVISIBLE_4")) {
 					m = m4;
-					monsterTriggered = true;
+					foundMonster = true;
 					monsterKey = key;
 					break;
 				} else if (key.startsWith("MONSTER_1")) {
 					m = m1;
-					monsterTriggered = true;
+					foundMonster = true;
 					monsterKey = key;
 					break;
 				} else if (key.startsWith("MONSTER_2")) {
 					m = m2;
-					monsterTriggered = true;
+					foundMonster = true;
 					monsterKey = key;
 					break;
 				} else if (key.startsWith("MONSTER_3")) {
 					m = m3;
-					monsterTriggered = true;
+					foundMonster = true;
 					monsterKey = key;
 					break; 
 				} else if (key.startsWith("MONSTER_4")) {
 					m = m4;
-					monsterTriggered = true;
+					foundMonster = true;
 					monsterKey = key;
 					break;
 				} else if (key.startsWith("BOSS")) {
 					m = b;
-					monsterTriggered = true;
+					foundMonster = true;
 					break;
 				} else if (key.startsWith("ELIXIR")) {
 					elixirKey = key;
@@ -358,7 +354,7 @@ public class GamePanel {
 			}
 		}
 
-		if (trapTriggered && t != null) {
+		if (foundTrap && t != null) {
 			int damageTaken = t.attack(h);
 
 			JOptionPane.showMessageDialog(null, 
@@ -367,25 +363,29 @@ public class GamePanel {
 				JOptionPane.INFORMATION_MESSAGE);
 
 			actorPositions.remove(trapKey);
+			actorPositions.put(heroKey, newPosition);
 		}
 
-		if (monsterTriggered) {
+		if (foundMonster) {
+			boolean monsterIsDead = m.isDead();
+
 			BattlePanel.initializeBattle(h, m);
 			MainPanel.showBattle();
+			
+			if (monsterIsDead) {
+				actorPositions.remove(monsterKey);
+				actorPositions.put(heroKey, newPosition);
+			} else if (!monsterIsDead) {
+				actorPositions.put(heroKey, position);
+				revealMonster(monsterKey);
+			}
+		} else if (!foundMonster) {
+			actorPositions.put(heroKey, newPosition);
 		}
 
 		lblHealth.setText(" " + h.getHealthPoints() + "/" + Settings.HERO_HEALTH_POINTS);
 		labelPanel.repaint();
 		labelPanel.revalidate();
-		actorPositions.put(heroKey, newPosition);
-
-		if (m.isDead()) {
-			actorPositions.remove(monsterKey);
-			actorPositions.put(heroKey, newPosition);
-		} else {
-			revealMonster(monsterKey);
-		}
-
 	}
 
 	private static void revealTrap() {
@@ -438,6 +438,7 @@ public class GamePanel {
 		if (keyToRemove != null) {
 			actorPositions.remove(keyToRemove);
 			actorPositions.put(keyToAdd, positionToAdd);
+			updateBoardIcons();
 		}
 	}
 
@@ -507,6 +508,8 @@ public class GamePanel {
 	public static void disableHintButton() {
 		btnHint.setEnabled(false);
 	}
+
+	public static NewGame getGameInstance() { return ng; }
 
     public static JPanel getPanel() { return pGame; }
 }

@@ -69,19 +69,24 @@ public class BattlePanel {
     }
 
     private static void setupUpperPanel() {
+		String monsterType = m.getMonsterType();
+
 		JLabel lblHeroSprite = new JLabel(new ImageIcon(
-					GamePanel.getSpriteForKey(h.getHeroClass()).getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
+					GamePanel.getSpriteForKey(h.getHeroClass()).getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
 		JLabel lblVersus = new JLabel(new ImageIcon(
-					Settings.VERSUS.getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
-		JLabel lblMonster = new JLabel(new ImageIcon(
-				GamePanel.getSpriteForKey("MONSTER_" + 
-				m.getMonsterType()).getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
-		JLabel lblBoss = new JLabel(new ImageIcon(
-				GamePanel.getSpriteForKey("BOSS").getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
+					Settings.VERSUS.getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
 		
+		if (monsterType.equals("BOSS")) {
+			System.out.println(monsterType);
+			JLabel lblMonster = new JLabel(new ImageIcon(
+					GamePanel.getSpriteForKey(monsterType).getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+		} else if (monsterType.equals("1") || monsterType.equals("2") 
+				|| monsterType.equals("3") || monsterType.equals("4")) {
+			JLabel lblMonster = new JLabel(new ImageIcon(
+					GamePanel.getSpriteForKey("MONSTER_" + monsterType).getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+		}
+
         JPanel spritesPanel = new JPanel();
-		
-		System.out.println(m.getMonsterType());
 		
         spritesPanel.setLayout(new BoxLayout(spritesPanel, BoxLayout.X_AXIS));
         spritesPanel.add(Box.createHorizontalGlue());
@@ -184,29 +189,13 @@ public class BattlePanel {
                     lblBattleStatus.setText(m.getName() + " deu " + damageTaken + " de dano em " + h.getName());
                 }
                 lblMonster.setText("Monstro: " + m.getName() + " - Saude: " + m.getHealthPoints());
-                
+
 				if (m.getHealthPoints() <= 0) {
-                    if (m.isBoss()) {
-                        JOptionPane.showMessageDialog(pBattle, "Você venceu!");
-						GamePanel.labelPanel.removeAll();
-						GamePanel.labelPanel.repaint();
-						GamePanel.boardPanel.removeAll();
-						GamePanel.boardPanel.repaint();
-                        MainPanel.showMenu();
-                    } else {
-                        JOptionPane.showMessageDialog(pBattle, "Você venceu!");
-						m.wasKilled();
-						GamePanel.labelPanel.removeAll();
-						GamePanel.labelPanel.repaint();
-						GamePanel.boardPanel.removeAll();
-						GamePanel.boardPanel.repaint();
-						GamePanel.setupGamePanel();
-						MainPanel.showGame();
-                        h.earnRandomStatPoints();
-                    }
+					handleVictory(m.getMonsterType());
                 } else {
 					lblBattleStatus.setText(m.getName() + " está se preparando para atacar.. ");
-                    try {
+					setupBattlePanel();
+					try {
                         Thread.sleep(3000);
                     } catch (InterruptedException ex) {
                         Thread.currentThread().interrupt();
@@ -281,26 +270,9 @@ public class BattlePanel {
                     lblBattleStatus.setText(h.getName() + " causou " + damageGiven + " de dano em " + m.getName());
                 }
                 if (m.getHealthPoints() <= 0) {
-                    if (m.isBoss()) {
-                        JOptionPane.showMessageDialog(pBattle, "Você venceu!");
-						GamePanel.labelPanel.removeAll();
-						GamePanel.labelPanel.repaint();
-						GamePanel.boardPanel.removeAll();
-						GamePanel.boardPanel.repaint();
-						GamePanel.setupGamePanel();
-                        MainPanel.showMenu();
-                    } else {
-                        JOptionPane.showMessageDialog(pBattle, "Você venceu!");
-                        m.wasKilled();
-						GamePanel.labelPanel.removeAll();
-						GamePanel.labelPanel.repaint();
-						GamePanel.boardPanel.removeAll();
-						GamePanel.setupGamePanel();
-						GamePanel.boardPanel.repaint();
-                        h.earnRandomStatPoints();
-                        MainPanel.showGame();
-                    }
+					handleVictory(m.getMonsterType());
                 }
+				btnSpecialAbility.setEnabled(false);
             }
         };
 
@@ -325,6 +297,38 @@ public class BattlePanel {
     private static void updateElixirButtonState() {
         btnUseElixir.setEnabled(h.getNumberOfElixirs() > 0);
     }
+
+	private static void handleVictory(String monsterKey) {
+		if (m.isBoss()) {
+			JOptionPane.showMessageDialog(pBattle, "Você venceu!");
+			GamePanel.updateBoardIcons();
+			GamePanel.labelPanel.removeAll();
+			GamePanel.labelPanel.repaint();
+			GamePanel.boardPanel.removeAll();
+			GamePanel.boardPanel.repaint();
+			GamePanel.setupGamePanel();
+			MainPanel.showMenu();
+			if (h.getHeroClass().equals("HERO_WARRIOR")) {
+				h.useSpecialAbility(m, true);
+				btnSpecialAbility.setEnabled(true);
+			}
+		} else {
+			JOptionPane.showMessageDialog(pBattle, "Você venceu!");
+			m.wasKilled();
+			GamePanel.updateBoardIcons();
+			GamePanel.labelPanel.removeAll();
+			GamePanel.labelPanel.repaint();
+			GamePanel.boardPanel.removeAll();
+			GamePanel.boardPanel.repaint();
+			GamePanel.setupGamePanel();
+			MainPanel.showGame();
+			h.earnRandomStatPoints();
+			if (h.getHeroClass().equals("HERO_WARRIOR")) {
+				h.useSpecialAbility(m, true);
+				btnSpecialAbility.setEnabled(true);
+			}
+		}
+	}
 
     public static JPanel getPanel() { return pBattle; }
 }
