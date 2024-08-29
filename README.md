@@ -1,6 +1,6 @@
 # Dungeon Fighter
 
-Dungeon Fighter is a board game [South Park: The Stick of Truth](https://www.southparkstudios.com.br/w/index.php/South_Park:_The_Stick_of_Truth) designed with Java Swing for "Object Oriented Programming" course at Federal University of Pelotas.
+Dungeon Fighter is a board game [South Park: The Stick of Truth](https://www.southparkstudios.com.br/w/index.php/South_Park:_The_Stick_of_Truth) designed with Java Swing made by Guilherme Ganassini, Lorenzo Saldanha e Gustavo Domenech for "Object Oriented Programming" course at Federal University of Pelotas.
 
 ## Screenshots
 
