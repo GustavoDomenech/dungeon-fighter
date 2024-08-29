@@ -75,8 +75,8 @@ public class SelectHeroPanel {
 
     private static void setupMiddlePanel() {
         Image warriorImage = Settings.SPRITE_WARRIOR.getScaledInstance(400, 400, Image.SCALE_SMOOTH);
-        Image paladinImage = Settings.SPRITE_PALADIN.getScaledInstance(400, 400, Image.SCALE_SMOOTH);
-        Image barbarianImage = Settings.SPRITE_BARBARIAN.getScaledInstance(400, 400, Image.SCALE_SMOOTH);
+        Image paladinImage = Settings.SPRITE_PALADIN.getScaledInstance(200, 400, Image.SCALE_SMOOTH);
+        Image barbarianImage = Settings.SPRITE_BARBARIAN.getScaledInstance(200, 400, Image.SCALE_SMOOTH);
 
         btnWarrior.setIcon(new ImageIcon(warriorImage));
         btnPaladin.setIcon(new ImageIcon(paladinImage));

@@ -1,54 +1,5 @@
 # DUNGEON-FIGHTER
 
-## TO DO
-
-* Quando o jogo começa, o jogador escolhe o seu herói de acordo com um tipo e recebe X pontos para distribuir entre seus atributos. 
-
-* MECANICA DA BATALHA
-> * "ingerir elixir”, "atacar", "usar habilidade especial", "fugir da batalha" \
-> * atacar ou usar a habilidade especial. <- botoes \
-> * O ataque ocorre da seguinte forma: o primeiro ataca sorteando um número de 0 a W e somando esse número ao valor de seu ataque.  \
-> * O segundo se defende sorteando um número de 0 a W e somando esse número ao valor de  sua defesa.  \
-> * O dano é o valor do ataque do primeiro menos o valor da defesa do segundo \
-> * Se o dano é positivo, o segundo perde vida, caso contrário, o primeiro que perde. 
-
-* herois possuem habilidades especiais 
-> * Guerreiro: Postura Defensiva - Aumenta sua defesa em 50% durante duas rodadas \
-> * Paladino: Recuperação - Recupera 50% dos seus pontos de vida totais \
-> * Bárbaro: Golpe furioso - Desfere um ataque que causa 50% a mais de dano 
-
-* Ao matar um monstro, o personagem do jogador recebe uma recompensa em um atributo aleatório
-
-* Uma introdução com a apresentação do tema do jogo  
-
-* A descrição geral de como o jogo foi implementado 
-
-* Diagrama de classes
-> * nome das classes \
-> * relacionamentos \
-> * atributos  \
-> * métodos(opcional)
-
-* Uma breve explicação de como e onde foram aplicados os conceitos de orientação à objetos, tais como: 
-> * herança \
-> * polimorfismo \
-> * interface \
-> * exceção \
-> * concorrência \
-> * classe abstrata
-
-* Passos para executar o programa implementado.
-> * Passo-a-passo de como jogar. \
-> * Para isso, use prints das janelas durante o jogo.
-
-* Um resumo das dificuldades encontradas durante o trabalho.
-
-* Uma conclusão com o relato da experiência em desenvolver o jogo em grupo.
-
-* Proposta de Trabalhos Futuros
-
-* PELO AMOR DE DEUS ATUALIZA A LISTA DE FUNÇÕES BONITINHO IUAL A java.awt.Graphics.drawImage()
-
 ## LIBRARIES
 
 * [javax.swing.SwingUtilities](https://docs.oracle.com/en/java/javase/17/docs/api/java.desktop/javax/swing/SwingUtilities.html)

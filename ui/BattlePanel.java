@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.util.concurrent.ThreadLocalRandom;
 import java.awt.event.ActionEvent;
@@ -24,10 +25,12 @@ import ui.GamePanel;
 import config.Settings;
 
 public class BattlePanel {
+	private static Image bs = Settings.BATTLE_SCENARIO;
     private static Font font = Settings.FONT;
+	private static int w = Settings.WINDOW_WIDTH;
+	private static int ht = Settings.WINDOW_HEIGHT;
     private static JPanel pBattle = new JPanel(new BorderLayout());
     private static JPanel leftPanel = new JPanel();
-    private static JPanel upperPanel = new JPanel(new BorderLayout());
     private static JPanel lowerPanel = new JPanel(new BorderLayout());
     private static JPanel infoPanel = new JPanel();
     private static JPanel actionPanel = new JPanel();
@@ -40,24 +43,38 @@ public class BattlePanel {
 	private static JLabel lblBoss = new JLabel();
     private static JLabel lblBattleStatus = new JLabel();
     private static JLabel lblElixirs = new JLabel();
+	private static JLabel lblHeroSprite;
+	private static JLabel lblVersus;
+	private static JLabel lblEnemy;
     private static Hero h;
     private static Monster m;
+    private static JPanel upperPanel = new JPanel(new BorderLayout());
+    private static JPanel spritesPanel = new JPanel() {
+		@Override
+		protected void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(bs, 0, 0, w, ht, this);
+		}
+
+		@Override
+		public Dimension getPreferredSize() { return new Dimension(w, ht); }
+	};
 
     public static void initializeBattle(Hero hero, Monster monster) {
         h = hero;
         m = monster;
         setupBattlePanel();
     }
+    
+	private static void setupBattlePanel() {
+		clearPanels();
 
-    private static void setupBattlePanel() {
         setupUpperPanel();
         setupInfoPanel();
         setupActionPanel();
-        setupLeftPanel();
         setupLowerPanel();
         
         pBattle.setBackground(Color.white);
-        pBattle.add(leftPanel, BorderLayout.WEST);
         pBattle.add(upperPanel, BorderLayout.CENTER);
         pBattle.add(lowerPanel, BorderLayout.SOUTH);
         
@@ -70,17 +87,16 @@ public class BattlePanel {
 
     private static void setupUpperPanel() {
 		String monsterType = m.getMonsterType();
-        JPanel spritesPanel = new JPanel();
-		JLabel lblHeroSprite = new JLabel(new ImageIcon(
+		lblHeroSprite = new JLabel(new ImageIcon(
 					GamePanel.getSpriteForKey(h.getHeroClass()).getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
-		JLabel lblVersus = new JLabel(new ImageIcon(
+		lblVersus = new JLabel(new ImageIcon(
 					Settings.VERSUS.getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
 		if (monsterType.equals("BOSS")) {
-			JLabel lblMonster = new JLabel(new ImageIcon(
+			lblEnemy = new JLabel(new ImageIcon(
 				GamePanel.getSpriteForKey(monsterType).getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
 		} else {
-			JLabel lblMonster = new JLabel(new ImageIcon(
-						GamePanel.getSpriteForKey("MONSTER_"+ monsterType).getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
+			lblEnemy = new JLabel(new ImageIcon(
+				GamePanel.getSpriteForKey("MONSTER_"+ monsterType).getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
 		}
 
         spritesPanel.setLayout(new BoxLayout(spritesPanel, BoxLayout.X_AXIS));
@@ -89,7 +105,7 @@ public class BattlePanel {
         spritesPanel.add(Box.createHorizontalStrut(10));
         spritesPanel.add(lblVersus);
         spritesPanel.add(Box.createHorizontalStrut(10));
-		spritesPanel.add(lblMonster);
+		spritesPanel.add(lblEnemy);
         spritesPanel.add(Box.createHorizontalGlue());
         
         upperPanel.setLayout(new BorderLayout());
@@ -143,12 +159,6 @@ public class BattlePanel {
         actionPanel.add(btnSpecialAbility);
         actionPanel.add(Box.createVerticalStrut(10));
         actionPanel.add(btnEscape);
-    }
-
-    private static void setupLeftPanel() {
-        leftPanel.setLayout(new BorderLayout());
-        leftPanel.add(actionPanel, BorderLayout.CENTER);
-        leftPanel.setPreferredSize(new Dimension(200, pBattle.getHeight()));
     }
 
     private static void setupLowerPanel() {
@@ -324,6 +334,15 @@ public class BattlePanel {
 			btnSpecialAbility.setEnabled(true);
 		}
 	}
+
+	private static void clearPanels() {
+		upperPanel.removeAll();
+		lowerPanel.removeAll();
+		infoPanel.removeAll();
+		actionPanel.removeAll();
+		spritesPanel.removeAll();
+	}
+
 
     public static JPanel getPanel() { return pBattle; }
 }

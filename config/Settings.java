@@ -20,6 +20,7 @@ public class Settings {
 	/* application settings */
 	public static Font FONT;
 	public static Image BACKGROUND;
+	public static Image BATTLE_SCENARIO;
 	public static Image VERSUS;
 	/* window settings */
 	public static final int WINDOW_WIDTH = 1366;
@@ -33,7 +34,7 @@ public class Settings {
 	public static final int HERO_HEALTH_POINTS = Y + 60;
 	public static final int ELIXIR_HEAL_AMOUNT = V;
 	/* monster settings */
-	public static final String[] MONSTER_NAMES= {"Gerson", "Carlos", "Lorenzo", "Gustavo"};
+	public static final String[] MONSTER_NAMES= {"Gary", "Carlos", "Lorenzo", "Gustavo"};
 	/* boss settings */
 	public static final String BOSS_NAME = "Rodrigo";
 	public static final int BOSS_ATTACK_POINTS = 200;
@@ -63,19 +64,20 @@ public class Settings {
 		/* image exception handling */
 		try {
 			BACKGROUND = ImageIO.read(new File("assets/images/background.png"));
+			BATTLE_SCENARIO = ImageIO.read(new File("assets/images/battle_scenario.jpg"));
 			VERSUS = ImageIO.read(new File("sprites/versus.png"));
-			SPRITE_WARRIOR = ImageIO.read(new File("sprites/warrior.png"));
-			SPRITE_PALADIN = ImageIO.read(new File("sprites/paladin.png"));
-			SPRITE_BARBARIAN = ImageIO.read(new File("sprites/barbarian.png"));
-			SPRITE_MONSTER_1 = ImageIO.read(new File("sprites/monster_1.png"));
-			SPRITE_MONSTER_2 = ImageIO.read(new File("sprites/monster_2.png"));
-			SPRITE_MONSTER_3 = ImageIO.read(new File("sprites/monster_3.png"));
-			SPRITE_MONSTER_4 = ImageIO.read(new File("sprites/monster_4.png"));
+			SPRITE_WARRIOR = ImageIO.read(new File("sprites/towelie.png"));
+			SPRITE_PALADIN = ImageIO.read(new File("sprites/morgan_freeman.png"));
+			SPRITE_BARBARIAN = ImageIO.read(new File("sprites/jesus_christ.png"));
+			SPRITE_MONSTER_1 = ImageIO.read(new File("sprites/catfish.png"));
+			SPRITE_MONSTER_2 = ImageIO.read(new File("sprites/raven.png"));
+			SPRITE_MONSTER_3 = ImageIO.read(new File("sprites/frog.png"));
+			SPRITE_MONSTER_4 = ImageIO.read(new File("sprites/cop.png"));
 			SPRITE_INVISIBLE_MONSTER_1 = ImageIO.read(new File("sprites/invisible.png"));
 			SPRITE_INVISIBLE_MONSTER_2 = ImageIO.read(new File("sprites/invisible.png"));
 			SPRITE_INVISIBLE_MONSTER_3 = ImageIO.read(new File("sprites/invisible.png"));
 			SPRITE_INVISIBLE_MONSTER_4 = ImageIO.read(new File("sprites/invisible.png"));
-			SPRITE_BOSS = ImageIO.read(new File("sprites/boss.png"));
+			SPRITE_BOSS = ImageIO.read(new File("sprites/jesus_christ.png"));
 			SPRITE_STATIC_TRAP = ImageIO.read(new File("sprites/static_trap.png"));
 			SPRITE_RANDOM_TRAP = ImageIO.read(new File("sprites/random_trap.png"));
 			SPRITE_ELIXIR = ImageIO.read(new File("sprites/elixir.png"));

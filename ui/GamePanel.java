@@ -136,11 +136,12 @@ public class GamePanel {
 
     public static void setupBoardPanel() {
         int buttonSize = 50;
+
+		boardPanel.removeAll();
 		
         boardPanel.setBackground(Color.WHITE);
         paddedBoardPanel.setBackground(Color.WHITE);
         paddedBoardPanel.setBorder(new EmptyBorder(80, 20, 80, 80));
-        paddedBoardPanel.add(boardPanel, BorderLayout.CENTER);	
         
 		for (int i = 0; i < 50; i++) {
             JButton boardButton = new JButton();
@@ -157,6 +158,7 @@ public class GamePanel {
             boardPanel.add(boardButton);
         }
 
+        paddedBoardPanel.add(boardPanel, BorderLayout.CENTER);	
         updateBoardIcons();
     }
 
@@ -169,7 +171,7 @@ public class GamePanel {
             String key = entry.getKey();
             String pos = entry.getValue();
             JButton button = boardButtons.get(pos);
-            Image sprite = getSpriteForKey(key).getScaledInstance(110, 110, Image.SCALE_SMOOTH);
+            Image sprite = getSpriteForKey(key).getScaledInstance(55, 110, Image.SCALE_SMOOTH);
             button.setIcon(new ImageIcon(sprite));
         }
     }
@@ -475,6 +477,13 @@ public class GamePanel {
             public void actionPerformed(ActionEvent e) {
 				btnHint.setEnabled(true);
 				hintCounter = 0;
+				boardButtons.clear();
+				boardPanel.removeAll();
+				boardPanel.repaint();
+				boardPanel.revalidate();
+				paddedBoardPanel.removeAll();
+				paddedBoardPanel.repaint();
+				paddedBoardPanel.revalidate();
 				MainPanel.showMenu();
 			}
         };
