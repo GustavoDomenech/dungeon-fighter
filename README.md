@@ -1,21 +1,21 @@
 # Dungeon Fighter
 
-Dungeon Fighter is a board game [](https://www.southparkstudios.com.br/w/index.php/South_Park:_The_Stick_of_Truth "South Park: The Stick of Truth") designed with Java Swing for "Object Oriented Programming" course at Federal University of Pelotas.
+Dungeon Fighter is a board game [South Park: The Stick of Truth](https://www.southparkstudios.com.br/w/index.php/South_Park:_The_Stick_of_Truth) designed with Java Swing for "Object Oriented Programming" course at Federal University of Pelotas.
 
 ## Screenshots
 
 ### MenuPanel
-![Menu](assets/screenshtos/menu.jpg)
+![Menu](assets/screenshots/menu.png)
 ### SelectHeroPanel
-![SelectHero](assets/screenshtos/select_hero.jpeg)
+![SelectHero](assets/screenshots/select_hero.png)
 ### BattlePanel
-![Battle](assets/screenshtos/battle.jpeg)
-![Battle-2](assets/screenshots/battle_2.jpeg)
+![Battle](assets/screenshots/battle.png)
+![Battle-2](assets/screenshots/battle_2.png)
 ### GamePanel
-![Board](assets/screenshtos/board.jpeg)
+![Board](assets/screenshots/board.png)
 ### others
-![Game won](assets/screenshtos/game_won.jpeg)
-![Game lost](assets/screenshtos/game_lost.jpeg)
+![Game won](assets/screenshots/game_won.png)
+![Game lost](assets/screenshots/game_over.png)
 
 ## Libraries
 
