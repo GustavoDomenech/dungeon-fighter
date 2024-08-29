@@ -11,6 +11,7 @@ public class MainPanel {
         pMain.add(MenuPanel.getPanel(), "Menu");
         pMain.add(GamePanel.getPanel(), "Game");
 		pMain.add(BattlePanel.getPanel(), "Battle");
+		pMain.add(SelectHeroPanel.getPanel(), "SelectHero");
     }
 
     public static CardLayout getCardLayout() { return clMain; }
@@ -22,5 +23,7 @@ public class MainPanel {
     public static void showGame() { clMain.show(pMain, "Game"); }
 
 	public static void showBattle() { clMain.show(pMain, "Battle"); }
+
+	public static void showSelectHero() { clMain.show(pMain, "SelectHero"); }
 }
 

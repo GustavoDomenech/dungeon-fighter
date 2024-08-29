@@ -30,11 +30,11 @@ import game.Trap;
 import game.Monster;
 import ui.MenuPanel;
 import ui.BattlePanel;
+import ui.SelectHeroPanel;
 import config.Settings;
 
 public class GamePanel {
     private static Font f = Settings.FONT;
-	private static boolean debugIsOn;
     private static JPanel pGame = new JPanel(new BorderLayout());
     private static JPanel leftPanel = new JPanel(new BorderLayout());
     public static JPanel boardPanel = new JPanel(new GridLayout(5, 10));
@@ -53,27 +53,29 @@ public class GamePanel {
 	private static String[] monsterNames = Settings.MONSTER_NAMES;
 	private static NewGame ng;
 	private static String heroKey;
+	private static String heroName;
     private static Hero h;
 	private static Monster m1, m2, m3, m4, b;
 	private static int hintCounter = 0;
+	private static boolean debugIsOn;
 
-	public static void initializeGame() {
-		debugIsOn = MenuPanel.debugIsOn;
-		/* TODO a heroKey tem q vir do painel SelectHero */
-		/* TODO cópia do HashMap das posições pro menu "Reiniciar" ou "Novo Jogo"*/
-		heroKey = "HERO_WARRIOR";
-        ng = new NewGame(heroKey, "Guilherme");
-        h = new Hero(heroKey, "Guilherme");
+	public static void initializeGame(String hClass, String hName, boolean debug, int[] pointsToDistribute) {
+		debugIsOn = debug;
+		heroKey = hClass;
+		heroName = hName;
+        ng = new NewGame(heroKey, heroName);
+        h = new Hero(heroKey, heroName, pointsToDistribute);
 		m1 = new Monster(monsterNames[0], "1");
 		m2 = new Monster(monsterNames[1], "2");
 		m3 = new Monster(monsterNames[2], "3");
 		m4 = new Monster(monsterNames[3], "4");
 		b = new Monster(Settings.BOSS_NAME, "BOSS");
-        actorPositions = ng.getActorPositions();
+		actorPositions = ng.getActorPositions();
         setupGamePanel();
     }
 
     public static void setupGamePanel() {
+		pGame.removeAll();
         setupLabelPanel();
         setupButtonPanel();
         setupLeftPanel();
@@ -85,7 +87,6 @@ public class GamePanel {
     }
 
     private static void setupLabelPanel() {
-        /* definição e formatação do texto */
 		lblHealth.setText(" " + h.getHealthPoints() + "/" + Settings.HERO_HEALTH_POINTS);
         lblHealth.setFont(f.deriveFont(36f));
         lblAttack.setText("󰓥 " + h.getAttackPoints());
@@ -94,7 +95,7 @@ public class GamePanel {
         lblDefense.setFont(f.deriveFont(36f));
         lblElixir.setText(" " + h.getNumberOfElixirs());
         lblElixir.setFont(f.deriveFont(36f));
-		/* layout do painel */
+
         labelPanel.setBackground(Color.WHITE);
         labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
         labelPanel.add(Box.createVerticalStrut(80));
@@ -105,7 +106,6 @@ public class GamePanel {
     }
 
     private static void setupButtonPanel() {
-        /* formatação e alinhamento dos botões */
 		btnMoveHero.setFont(f);
         btnMoveHero.setAlignmentX(JButton.CENTER_ALIGNMENT);
         btnMoveHero.setMaximumSize(new Dimension(Integer.MAX_VALUE, btnMoveHero.getMinimumSize().height));
@@ -115,7 +115,7 @@ public class GamePanel {
         btnBack.setFont(f);
         btnBack.setAlignmentX(JButton.CENTER_ALIGNMENT);
         btnBack.setMaximumSize(new Dimension(Integer.MAX_VALUE, btnBack.getMinimumSize().height));
-		/* layout do painel */
+	
         buttonPanel.setBackground(Color.WHITE);
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.add(btnMoveHero);
@@ -127,7 +127,6 @@ public class GamePanel {
     }
 
     private static void setupLeftPanel() {
-		/* layout do painel */
         leftPanel.setBackground(Color.WHITE);
         leftPanel.setPreferredSize(new Dimension(250, leftPanel.getPreferredSize().height));
         leftPanel.setBorder(new EmptyBorder(0, 20, 0, 0));
@@ -138,35 +137,34 @@ public class GamePanel {
     public static void setupBoardPanel() {
         int buttonSize = 50;
 		
-		/* layout do painel */
         boardPanel.setBackground(Color.WHITE);
         paddedBoardPanel.setBackground(Color.WHITE);
         paddedBoardPanel.setBorder(new EmptyBorder(80, 20, 80, 80));
         paddedBoardPanel.add(boardPanel, BorderLayout.CENTER);	
-		/* botões do painel */
-        for (int i = 0; i < 50; i++) {
+        
+		for (int i = 0; i < 50; i++) {
             JButton boardButton = new JButton();
             boardButton.setFont(f);
             boardButton.setPreferredSize(new Dimension(buttonSize, buttonSize));
+
             if ((i / 10 + i % 10) % 2 == 0) {
                 boardButton.setBackground(Color.WHITE);
             } else {
                 boardButton.setBackground(Color.BLACK);
             }
-            String position = (i / 10) + "," + (i % 10);
+			String position = (i / 10) + "," + (i % 10);
             boardButtons.put(position, boardButton);
             boardPanel.add(boardButton);
         }
-		/* atualiza o painel */
+
         updateBoardIcons();
     }
 
     public static void updateBoardIcons() {
-		/* remove todos os sprites */
         for (Map.Entry<String, JButton> entry : boardButtons.entrySet()) {
             entry.getValue().setIcon(null);
         }
-		/* posiciona os novos sprites */
+
         for (Map.Entry<String, String> entry : actorPositions.entrySet()) {
             String key = entry.getKey();
             String pos = entry.getValue();
@@ -334,6 +332,7 @@ public class GamePanel {
 				} else if (key.startsWith("BOSS")) {
 					m = b;
 					foundMonster = true;
+					monsterKey = key;
 					break;
 				} else if (key.startsWith("ELIXIR")) {
 					elixirKey = key;
@@ -476,10 +475,6 @@ public class GamePanel {
             public void actionPerformed(ActionEvent e) {
 				btnHint.setEnabled(true);
 				hintCounter = 0;
-				labelPanel.removeAll();
-				labelPanel.repaint();
-				boardPanel.removeAll();
-				boardPanel.repaint();	
 				MainPanel.showMenu();
 			}
         };
@@ -489,7 +484,6 @@ public class GamePanel {
         }
 		
 		btnHint.addActionListener(hintButtonListener);
-		/* TODO fazer um menu de "Reiniciar" ou "Novo Jogo" */
         btnBack.addActionListener(backButtonListener);
     }
 
@@ -505,9 +499,7 @@ public class GamePanel {
                (Math.abs(currentY - targetY) == 1 && currentX == targetX);
     }
 
-	public static void disableHintButton() {
-		btnHint.setEnabled(false);
-	}
+	public static void disableHintButton() { btnHint.setEnabled(false); }
 
 	public static NewGame getGameInstance() { return ng; }
 

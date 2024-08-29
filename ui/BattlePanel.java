@@ -74,10 +74,15 @@ public class BattlePanel {
 		JLabel lblHeroSprite = new JLabel(new ImageIcon(
 					GamePanel.getSpriteForKey(h.getHeroClass()).getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
 		JLabel lblVersus = new JLabel(new ImageIcon(
-					Settings.VERSUS.getScaledInstance(300, 300, Image.SCALE_SMOOTH)));	
-		JLabel lblMonster = new JLabel(new ImageIcon(
-					GamePanel.getSpriteForKey("MONSTER_"+ monsterType).getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
-		
+					Settings.VERSUS.getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
+		if (monsterType.equals("BOSS")) {
+			JLabel lblMonster = new JLabel(new ImageIcon(
+				GamePanel.getSpriteForKey(monsterType).getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
+		} else {
+			JLabel lblMonster = new JLabel(new ImageIcon(
+						GamePanel.getSpriteForKey("MONSTER_"+ monsterType).getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
+		}
+
         spritesPanel.setLayout(new BoxLayout(spritesPanel, BoxLayout.X_AXIS));
         spritesPanel.add(Box.createHorizontalGlue());
         spritesPanel.add(lblHeroSprite);

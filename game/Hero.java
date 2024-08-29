@@ -10,11 +10,15 @@ public class Hero extends Character {
     private String heroClass;
     private int numberOfElixirs;
 
-    public Hero(String heroClass, String name) {
-        super(name, Settings.HERO_ATTACK_POINTS, Settings.HERO_DEFENSE_POINTS, Settings.HERO_HEALTH_POINTS);
-        this.heroClass = heroClass;
-        this.numberOfElixirs = 0;
-    }
+	public Hero(String heroClass, String name, int[] pointsToDistribute) {
+		super(name, 
+			  Settings.HERO_ATTACK_POINTS + pointsToDistribute[1], 
+			  Settings.HERO_DEFENSE_POINTS + pointsToDistribute[2], 
+			  Settings.HERO_HEALTH_POINTS + pointsToDistribute[0]);
+
+		this.heroClass = heroClass;
+		this.numberOfElixirs = 0;
+	}
 
     public int useElixir() {
         this.healthPoints += Settings.ELIXIR_HEAL_AMOUNT;
@@ -69,4 +73,6 @@ public class Hero extends Character {
 	public void foundElixir() { this.numberOfElixirs++; }
 
 	public String getHeroClass() { return heroClass; }
+
+	public void increaseHealthPoints() {  }
 }

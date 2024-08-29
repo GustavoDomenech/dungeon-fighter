@@ -17,7 +17,6 @@ import java.awt.event.ActionListener;
 import config.Settings;
 
 public class MenuPanel {
-	public static boolean debugIsOn = false;
 	private static Font f = Settings.FONT;
 	private static int w = Settings.WINDOW_WIDTH;
 	private static int h = Settings.WINDOW_HEIGHT;
@@ -40,26 +39,25 @@ public class MenuPanel {
 	};
 
 	static {
-		/* tamanho dos botões */
 		btnNewGame.setPreferredSize(buttonSize);
 		btnDebug.setPreferredSize(buttonSize);
 		btnExit.setPreferredSize(buttonSize);
-		/* fonte dos botões */
+
 		btnNewGame.setFont(f);
 		btnDebug.setFont(f);
 		btnExit.setFont(f);
-		/* layout do painel */
+		
 		pMenu.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(10, 0, 10, 0);
 		gbc.gridx = 0;
 		gbc.gridy = GridBagConstraints.RELATIVE;
-		/* adiciona os botões ao menu */
+		
 		pMenu.add(Box.createVerticalStrut(150));
 		pMenu.add(btnNewGame, gbc);
 		pMenu.add(btnDebug, gbc);
 		pMenu.add(btnExit, gbc);
-		/* action listeners do painel */
+	
 		setupButtonListeners();
 	}
 
@@ -67,19 +65,16 @@ public class MenuPanel {
 		ActionListener newGameButtonListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-				debugIsOn = false;
-				GamePanel.initializeGame();
-				MainPanel.showGame();
+				SelectHeroPanel.setupSelectHeroPanel(false);
+				MainPanel.showSelectHero();
 			}
         };
 
 		ActionListener debugButtonListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	GamePanel.disableHintButton();
-				debugIsOn = true;
-				GamePanel.initializeGame();
-				MainPanel.showGame();
+				SelectHeroPanel.setupSelectHeroPanel(true);
+				MainPanel.showSelectHero();
 			}
         };
 

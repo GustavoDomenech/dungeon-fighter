@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 
 public class Settings {
 	/* enunciado settings */
-	public static final int X = 5; 	// recebe X pontos para distribuir entre seus atributos.
+	public static final int X = 15; // recebe X pontos para distribuir entre seus atributos.
 	public static final int Y = 10; // os pontos de vida serão Y + saúde
 	public static final int E = 3; 	// capacidade da bolsa
 	public static final int V = 10; // um elixir é um preparo que dá V pontos de vida
