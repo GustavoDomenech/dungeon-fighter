@@ -48,6 +48,7 @@ public class BattlePanel {
 	private static JLabel lblEnemy;
     private static Hero h;
     private static Monster m;
+	private static Monster nullMonster = new Monster("null", "NULL");
     private static JPanel upperPanel = new JPanel(new BorderLayout());
     private static JPanel spritesPanel = new JPanel() {
 		@Override
@@ -88,12 +89,12 @@ public class BattlePanel {
     private static void setupUpperPanel() {
 		String monsterType = m.getMonsterType();
 		lblHeroSprite = new JLabel(new ImageIcon(
-					GamePanel.getSpriteForKey(h.getHeroClass()).getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
+					GamePanel.getSpriteForKey(h.getHeroClass()).getScaledInstance(150, 300, Image.SCALE_SMOOTH)));
 		lblVersus = new JLabel(new ImageIcon(
 					Settings.VERSUS.getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
 		if (monsterType.equals("BOSS")) {
 			lblEnemy = new JLabel(new ImageIcon(
-				GamePanel.getSpriteForKey(monsterType).getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
+				GamePanel.getSpriteForKey(monsterType).getScaledInstance(150, 300, Image.SCALE_SMOOTH)));
 		} else {
 			lblEnemy = new JLabel(new ImageIcon(
 				GamePanel.getSpriteForKey("MONSTER_"+ monsterType).getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
@@ -113,9 +114,9 @@ public class BattlePanel {
     }
 
     private static void setupInfoPanel() {
-        lblHero.setText("Heroi: " + h.getName() + " - Saude: " + h.getHealthPoints());
+        lblHero.setText(h.getName() + "'s HP " + h.getHealthPoints());
         lblHero.setFont(font.deriveFont(18f));
-        lblMonster.setText("Monstro: " + m.getName() + " - Saude: " + m.getHealthPoints());
+        lblMonster.setText(m.getName() + "'s HP " + m.getHealthPoints());
         lblMonster.setFont(font.deriveFont(18f));
         lblBattleStatus.setText("Prepare-se para a batalha");
         lblBattleStatus.setFont(font.deriveFont(18f));
@@ -176,7 +177,7 @@ public class BattlePanel {
                         m.increaseRoundsPassed();
                         break;
                     case 2:
-                        h.useSpecialAbility(m, true);
+                        h.useSpecialAbility(nullMonster, true);
                         break;
                     default:
                         break;
@@ -193,7 +194,7 @@ public class BattlePanel {
                     int damageTaken = h.takeDamage(-damage);
                     lblBattleStatus.setText(m.getName() + " deu " + damageTaken + " de dano em " + h.getName());
                 }
-                lblMonster.setText("Monstro: " + m.getName() + " - Saude: " + m.getHealthPoints());
+                lblMonster.setText(m.getName() + "'s HP " + m.getHealthPoints());
 
 				if (m.getHealthPoints() <= 0) {
 					handleVictory(m.getMonsterType());
@@ -216,7 +217,7 @@ public class BattlePanel {
                         int damageTaken = m.takeDamage(-damage);
                         lblBattleStatus.setText(h.getName() + " deu " + damageTaken + " de dano em " + m.getName());
                     }
-                    lblHero.setText("Heroi: " + h.getName() + " - Saude: " + h.getHealthPoints());
+                    lblHero.setText(h.getName() + "'s HP " + h.getHealthPoints());
 
                     if (h.getHealthPoints() <= 0) {
 						GamePanel.labelPanel.removeAll();
@@ -235,7 +236,7 @@ public class BattlePanel {
             public void actionPerformed(ActionEvent e) {
                 if (h.getNumberOfElixirs() > 0) {
                     int healAmount = h.useElixir();
-                    lblHero.setText("Heroi: " + h.getName() + " - Saude: " + h.getHealthPoints());
+                    lblHero.setText(h.getName() + "'s HP : " + h.getHealthPoints());
                     lblElixirs.setText("Elixires: " + h.getNumberOfElixirs());
                     lblBattleStatus.setText(h.getName() + " usou um elixir e restaurou " + healAmount + " de saude");
                     updateElixirButtonState();
@@ -268,8 +269,8 @@ public class BattlePanel {
                 }
 
                 lblBattleStatus.setText(abilityMessage);
-                lblHero.setText("Heroi: " + h.getName() + " - Saude: " + h.getHealthPoints());
-                lblMonster.setText("Monstro: " + m.getName() + " - Saude: " + m.getHealthPoints());
+                lblHero.setText(h.getName() + "'s HP " + h.getHealthPoints());
+                lblMonster.setText(m.getName() + "'s HP " + m.getHealthPoints());
                 if (specialDamage > 0) {
                     int damageGiven = m.takeDamage(specialDamage);
                     lblBattleStatus.setText(h.getName() + " causou " + damageGiven + " de dano em " + m.getName());

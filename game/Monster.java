@@ -33,7 +33,11 @@ public class Monster extends Character {
             super.setAttackPoints(this.attackPoints);
             super.setDefensePoints(this.defensePoints);
             super.setHealthPoints(this.healthPoints);
-        }     
+        } else if (type.equals("NULL")) {
+			this.attackPoints = 0;
+			this.defensePoints = 999999;
+			this.healthPoints = 999999;
+		}
 	}
 
 	public String getMonsterType() { return this.type; }

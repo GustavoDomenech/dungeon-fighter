@@ -1,6 +1,23 @@
-# DUNGEON-FIGHTER
+# Dungeon Fighter
 
-## LIBRARIES
+Dungeon Fighter is a board game [](https://www.southparkstudios.com.br/w/index.php/South_Park:_The_Stick_of_Truth "South Park: The Stick of Truth") designed with Java Swing for "Object Oriented Programming" course at Federal University of Pelotas.
+
+## Screenshots
+
+### MenuPanel
+![Menu](assets/screenshtos/menu.jpg)
+### SelectHeroPanel
+![SelectHero](assets/screenshtos/select_hero.jpeg)
+### BattlePanel
+![Battle](assets/screenshtos/battle.jpeg)
+![Battle-2](assets/screenshots/battle_2.jpeg)
+### GamePanel
+![Board](assets/screenshtos/board.jpeg)
+### others
+![Game won](assets/screenshtos/game_won.jpeg)
+![Game lost](assets/screenshtos/game_lost.jpeg)
+
+## Libraries
 
 * [javax.swing.SwingUtilities](https://docs.oracle.com/en/java/javase/17/docs/api/java.desktop/javax/swing/SwingUtilities.html)
 * [javax.swing.JFrame](https://docs.oracle.com/en/java/javase/22/docs/api/java.desktop/javax/swing/JFrame.html)

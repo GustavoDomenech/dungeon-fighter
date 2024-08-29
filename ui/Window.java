@@ -9,13 +9,11 @@ public class Window {
     
     public static void init() {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		/* CardLayout contem os paineis do jogo */
         f.setLayout(MainPanel.getCardLayout());
-		/* adiciona o MainPanel ao frame */
         f.add(MainPanel.getPanel());
-		/* menu como painel inicial */
-        MainPanel.showMenu();
-        /* geometria da janela etc */
+        
+		MainPanel.showMenu();
+		
 		f.pack();
         f.setSize(Settings.WINDOW_WIDTH, Settings.WINDOW_HEIGHT);
         f.setLocationRelativeTo(null);
